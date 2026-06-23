@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<l10n>
+    <translationContributors/>
+    <texts>
+        <text name="dm_notice_title" text="Dynamischer Markt"/>
+        <text name="dm_notice_updated" text="Neue Marktpreise berechnet."/>
+        <text name="dm_notice_stable" text="Die wichtigsten Warengruppen bleiben stabil."/>
+        <text name="dm_notice_up_light" text="%s steigt leicht"/>
+        <text name="dm_notice_up_clear" text="%s steigt deutlich"/>
+        <text name="dm_notice_up_strong" text="%s steigt stark"/>
+        <text name="dm_notice_down_light" text="%s fällt leicht"/>
+        <text name="dm_notice_down_clear" text="%s fällt deutlich"/>
+        <text name="dm_notice_down_strong" text="%s fällt stark"/>
+        <text name="dm_group_cereal" text="Getreide"/>
+        <text name="dm_group_oilseed" text="Ölfrüchte"/>
+        <text name="dm_group_rootcrop" text="Hackfrüchte"/>
+        <text name="dm_group_vegetable" text="Gemüse"/>
+        <text name="dm_group_forage" text="Futterpflanzen"/>
+        <text name="dm_group_fiber" text="Faserpflanzen"/>
+        <text name="dm_group_animal" text="Tierprodukte"/>
+        <text name="dm_group_animalMarket" text="Tiere"/>
+        <text name="dm_group_auxiliaryProduct" text="Hilfswaren"/>
+        <text name="dm_group_production" text="verarbeitete Waren"/>
+        <text name="dm_group_preserved" text="Konserven"/>
+        <text name="dm_group_packaged" text="verpackte Waren"/>
+        <text name="dm_group_construction" text="Baustoffe"/>
+        <text name="dm_group_woodProduct" text="Holzprodukte"/>
+        <text name="dm_menu_title" text="Dynamischer Markt"/>
+        <text name="dm_header_icon" text=""/>
+        <text name="dm_header_good" text="Ware"/>
+        <text name="dm_header_group" text="Gruppe"/>
+        <text name="dm_header_market" text="Markt"/>
+        <text name="dm_header_trend" text=""/>
+        <text name="dm_header_price" text="Akt. Preis"/>
+        <text name="dm_header_baseprice" text="Basispreis"/>
+        <text name="dm_header_yearlyaverage" text="Jahresbasis"/>
+        <text name="dm_header_station" text="Beste Verkaufsstelle"/>
+        <text name="dm_header_difference" text="Differenz"/>
+        <text name="dm_header_bestmonthprice" text="Basispreis"/>
+        <text name="dm_header_bestmonth" text="Bester Monat"/>
+        <text name="dm_search_label" text="Suche"/>
+        <text name="dm_footer_visible" text=""/>
+        <text name="dm_filter_stored_off" text="Alle Waren"/>
+        <text name="dm_filter_stored_on" text="Nur Lagerbestand"/>
+        <text name="dm_settings_header" text="Dynamic Market"/>
+        <text name="dm_setting_pricebase_title" text="Preisbasis"/>
+        <text name="dm_setting_pricebase_desc" text="Normal: aktuelle GIANTS-Saisonpreise. Jahr Ø: stabile Jahresbasis."/>
+        <text name="dm_setting_pricebase_normal" text="Normal"/>
+        <text name="dm_setting_pricebase_year" text="Jahr Ø"/>
+        <text name="dm_month_jan" text="Jan"/>
+        <text name="dm_month_feb" text="Feb"/>
+        <text name="dm_month_mar" text="März"/>
+        <text name="dm_month_apr" text="Apr"/>
+        <text name="dm_month_may" text="Mai"/>
+        <text name="dm_month_jun" text="Jun"/>
+        <text name="dm_month_jul" text="Jul"/>
+        <text name="dm_month_aug" text="Aug"/>
+        <text name="dm_month_sep" text="Sep"/>
+        <text name="dm_month_oct" text="Okt"/>
+        <text name="dm_month_nov" text="Nov"/>
+        <text name="dm_month_dec" text="Dez"/>
+    </texts>
+</l10n>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI name="DynamicMarketMenuFrame">
+    <GuiElement profile="fs25_menuContainer">
+        <GuiElement profile="fs25_menuHeaderPanel">
+            <Bitmap profile="fs25_menuHeaderIconBg">
+                <Bitmap profile="dynamicMarketMenuHeaderIcon"/>
+            </Bitmap>
+            <Text profile="fs25_menuHeaderTitle" id="categoryHeaderText" text="$l10n_dm_menu_title"/>
+            <RoundCorner profile="fs25_shopMoneyBoxBg" id="shopMoneyBoxBg"/>
+            <BoxLayout profile="fs25_shopMoneyBox" id="shopMoneyBox">
+                <Text profile="fs25_shopBalance" text="$l10n_ui_balance:"/>
+                <Text profile="fs25_shopMoney" id="currentBalanceText"/>
+            </BoxLayout>
+        </GuiElement>
+        <GuiElement profile="dynamicMarketSearchBox">
+            <Text profile="dynamicMarketSearchLabel" text="$l10n_dm_search_label"/>
+            <TextInput profile="dynamicMarketSearchInput" id="searchInput" text="" maxCharacters="40" maxInputTextWidth="320px" onTextChanged="onSearchChanged" onEnterPressed="onSearchEnterPressed"/>
+            <Button profile="dynamicMarketStoredOnlyButton" id="storedOnlyButton" text="$l10n_dm_filter_stored_off" onClick="onClickStoredOnly"/>
+        </GuiElement>
+        <GuiElement profile="dynamicMarketHeaderBox" position="0px -44px">
+            <Button profile="dynamicMarketHeaderCenter" position="0px 0px" size="40px 32px" text="$l10n_dm_header_icon" handleFocus="false" />
+            <Button profile="dynamicMarketHeader" position="40px 0px" size="210px 32px" text="$l10n_dm_header_good" id="goodsHeader" onClick="onClickGoodsHeader"/>
+            <Button profile="dynamicMarketHeaderCenter" position="250px 0px" size="120px 32px" text="$l10n_dm_header_price" id="priceHeader" onClick="onClickPriceHeader"/>
+            <Button profile="dynamicMarketHeaderCenter" position="370px 0px" size="90px 32px" text="$l10n_dm_header_market" id="marketHeader" onClick="onClickMarketHeader"/>
+            <Button profile="dynamicMarketHeaderCenter" position="460px 0px" size="140px 32px" text="$l10n_dm_header_yearlyaverage" id="yearlyAverageHeader" onClick="onClickYearlyAverageHeader"/>
+            <Button profile="dynamicMarketHeaderCenter" position="600px 0px" size="140px 32px" text="$l10n_dm_header_difference" id="bestMonthPriceHeader" onClick="onClickBestMonthPriceHeader"/>
+            <Button profile="dynamicMarketHeaderCenter" position="740px 0px" size="315px 32px" text="$l10n_dm_header_station" id="stationHeader" onClick="onClickStationHeader"/>
+            <Text profile="dynamicMarketHeaderCenter" position="1055px 0px" size="140px 32px" text="$l10n_dm_header_bestmonth" id="monthHeader"/>
+            <ThreePartBitmap profile="fs25_lineSeparatorBottom" position="0px -2dp" />
+        </GuiElement>
+        <SmoothList profile="dynamicMarketList" id="dynamicMarketTable">
+            <ListItem profile="dynamicMarketListItem">
+                <Bitmap profile="dynamicMarketRowCellImage" name="icon" />
+                <Text profile="dynamicMarketRowCellLeftBright" position="40px 0px" size="210px 32px" name="good"/>
+                <Text profile="dynamicMarketRowCellCenterBright" position="250px 0px" size="120px 32px" name="price" />
+                <Text profile="dynamicMarketRowCellMarket" position="370px 0px" size="90px 32px" name="market"/>
+                <Text profile="dynamicMarketRowCellCenter" position="460px 0px" size="140px 32px" name="yearlyaverage" />
+                <Text profile="dynamicMarketRowCellCenter" position="600px 0px" size="140px 32px" name="bestmonthprice" />
+                <Text profile="dynamicMarketRowCellStation" position="740px 0px" size="315px 32px" name="station" />
+                <Text profile="dynamicMarketRowCellCenter" position="1055px 0px" size="140px 32px" name="month" />
+            </ListItem>
+        </SmoothList>
+        <ThreePartBitmap profile="dynamicMarketListSliderBox">
+            <Slider profile="fs25_listSlider" dataElementId="dynamicMarketTable" />
+        </ThreePartBitmap>
+    </GuiElement>
+</GUI>

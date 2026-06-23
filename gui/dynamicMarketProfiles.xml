@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUIProfiles>
+    <Profile name="dynamicMarketMenuHeaderIcon" extends="baseReference" with="anchorMiddleCenter">
+        <size value="50px 50px" />
+        <imageSliceId value="gui.icon_ingameMenu_prices" />
+        <imageColor value="$preset_fs25_colorMainDark" />
+    </Profile>
+    <Profile name="dynamicMarketSearchBox" extends="baseReference" with="anchorTopLeft">
+        <position value="0px -6px" />
+        <size value="760px 34px" />
+    </Profile>
+    <Profile name="dynamicMarketSearchLabel" extends="baseReference" with="anchorMiddleLeft">
+        <position value="0px 0px" />
+        <size value="85px 30px" />
+        <textSize value="16px" />
+        <textBold value="true" />
+        <textUpperCase value="true" />
+        <textColor value="$preset_colorWhite_50" />
+        <textAlignment value="left" />
+    </Profile>
+    <Profile name="dynamicMarketSearchInput" extends="baseReference" with="anchorMiddleLeft">
+        <position value="90px 0px" />
+        <size value="360px 30px" />
+        <imageColor value="$preset_fs25_colorGreyDark" />
+        <imageFocusedColor value="$preset_fs25_colorGreyDark" />
+        <imageSelectedColor value="$preset_fs25_colorGreyDark" />
+        <textSize value="16px" />
+        <textColor value="$preset_colorWhite" />
+        <textSelectedColor value="$preset_colorWhite" />
+        <textDisabledColor value="$preset_colorDisabled" />
+        <textOffset value="8px 0px" />
+        <cursorColor value="$preset_colorWhite" />
+        <cursorSize value="3px 24px" />
+        <cursorOffset value="9px 3px" />
+        <maxInputTextWidth value="330px" />
+    </Profile>
+    <Profile name="dynamicMarketStoredOnlyButton" extends="wideButton" with="anchorMiddleLeft">
+        <position value="470px 0px" />
+        <size value="230px 30px" />
+        <textSize value="15px" />
+        <textUpperCase value="true" />
+        <textColor value="$preset_fs25_colorMainHighlight" />
+        <textFocusedColor value="$preset_colorWhite_50" />
+        <textHighlightedColor value="$preset_colorWhite_50" />
+        <textSelectedColor value="$preset_fs25_colorMainHighlight" />
+    </Profile>
+    <Profile name="dynamicMarketHeaderBox" extends="fs25_statisticsHeaderBox" />
+    <Profile name="dynamicMarketHeader" extends="baseReference">
+        <size value="155px 32px" />
+        <imageColor value="0 0 0 0" />
+        <textFocusedColor value="$preset_colorWhite_50" />
+        <textHighlightedColor value="$preset_colorWhite_50" />
+        <textSize value="16px" />
+        <textBold value="true" />
+        <textUpperCase value="true" />
+        <textColor value="$preset_colorWhite_50" />
+        <textAlignment value="left" />
+        <textDisabledColor value="$preset_colorDisabled" />
+    </Profile>
+    <Profile name="dynamicMarketHeaderCenter" extends="dynamicMarketHeader">
+        <textAlignment value="center" />
+    </Profile>
+    <Profile name="dynamicMarketHeaderBright" extends="dynamicMarketHeader">
+        <textColor value="$preset_colorWhite" />
+    </Profile>
+    <Profile name="dynamicMarketHeaderRight" extends="dynamicMarketHeader">
+        <textAlignment value="right" />
+    </Profile>
+    <Profile name="dynamicMarketHeaderRightBright" extends="dynamicMarketHeaderRight">
+        <textColor value="$preset_colorWhite" />
+    </Profile>
+    <Profile name="dynamicMarketList" extends="emptyPanel" with="anchorStretchingYLeft pivotTopLeft">
+        <position value="0px -84px" />
+        <absoluteSizeOffset value="0px 80px" />
+    </Profile>
+    <Profile name="dynamicMarketListItem" extends="baseReference" with="anchorTopStretchingX alternating">
+        <height value="32px"/>
+        <imageColor value="$preset_fs25_colorGrey" />
+        <imageSelectedColor value="$preset_fs25_colorMainHighlight" />
+        <alternateBackgroundColor value="$preset_fs25_colorGreyDark_50" />
+    </Profile>
+    <Profile name="dynamicMarketRowCellImage" extends="baseReference" with="anchorMiddleLeft">
+        <size value="24px 24px" />
+        <position value="8px 0" />
+        <imageSliceId value="noSlice" />
+    </Profile>
+    <Profile name="dynamicMarketRowCellLeft" extends="baseReference" with="anchorStretchingYLeft">
+        <size value="155px 32px" />
+        <textBold value="false" />
+        <textSize value="15px" />
+        <textAlignment value="left" />
+        <textOffset value="4px 0px" />
+        <textColor value="$preset_fs25_colorMainLight" />
+        <textSelectedColor value="$preset_fs25_colorMainDark" />
+        <textDisabledColor value="$preset_colorDisabled" />
+    </Profile>
+    <Profile name="dynamicMarketRowCellLeftBright" extends="dynamicMarketRowCellLeft">
+        <textBold value="true" />
+    </Profile>
+    <Profile name="dynamicMarketRowCellCenter" extends="dynamicMarketRowCellLeft">
+        <textAlignment value="center" />
+    </Profile>
+    <Profile name="dynamicMarketRowCellCenterBright" extends="dynamicMarketRowCellCenter">
+        <textBold value="true" />
+        <textColor value="$preset_colorWhite" />
+    </Profile>
+    <Profile name="dynamicMarketRowCellRight" extends="dynamicMarketRowCellCenter" />
+    <Profile name="dynamicMarketRowCellRightBright" extends="dynamicMarketRowCellCenterBright" />
+    <Profile name="dynamicMarketRowCellMarket" extends="dynamicMarketRowCellCenter">
+        <textBold value="true" />
+    </Profile>
+    <Profile name="dynamicMarketRowCellStation" extends="dynamicMarketRowCellLeft">
+        <textAlignment value="center" />
+        <textAutoWidth value="false" />
+        <textMaxWidth value="450px" />
+        <textLayoutMode value="clip" />
+    </Profile>
+    <Profile name="dynamicMarketListSliderBox" extends="fs25_listSliderBox" with="anchorTopStretchingX pivotTopRight">
+        <position value="28px -84px" />
+        <absoluteSizeOffset value="0px 80px" />
+    </Profile>
+</GUIProfiles>

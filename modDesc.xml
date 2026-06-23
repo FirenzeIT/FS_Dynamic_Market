@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<modDesc descVersion="109">
+    <author>Nalathan</author>
+    <version>1.0.0.0</version>
+    <title>
+        <en>Dynamic Market</en>
+        <de>Dynamischer Markt</de>
+        <fr>Marché Dynamique</fr>
+    </title>
+ <description>
+    <en><![CDATA[
+Extends the Farming Simulator selling price system with an additional dynamic monthly market layer. The base game pricing and seasonal logic remain unchanged and are used as foundation in standard mode. On top of this, an independent market adjustment applies monthly price variations based on product group and global market state.
+
+Optionally, a yearly average mode can be enabled. In this mode the Giants seasonal price curve is disabled and replaced by a stable yearly mean value. This yearly average is calculated based on the usual Giants pricing logic, including difficulty settings and selling station influence. It provides a consistent reference over the whole year and allows players to decide the best selling month without relying on predictable seasonal peaks.
+
+Each product category (grains, oilseeds, vegetables, forage crops, wood, animal products and processed goods) follows its own price curve. This prevents uniform price changes and creates more realistic market behavior across different goods.
+
+A dedicated market screen displays the base game price, the dynamically adjusted selling price or yearly average value depending on mode, the percentage difference, the selling location and the best selling month from the base game. Search and storage filter allow fast navigation through available products.
+
+All market calculations are server-side in multiplayer to ensure consistent pricing across all clients.
+
+Features:
+- additional dynamic monthly market layer on top of base game pricing
+- optional yearly average mode replacing Giants seasonal curve
+- yearly average based on Giants pricing logic, difficulty and selling station
+- independent price curves per product group
+- comparison between base game price and adjusted market result
+- percentage deviation display
+- in-game market overview page with search and storage filter
+- automatic detection of sellable products from maps and mods
+- manual product group assignment for custom or misdetected items
+- server-authoritative pricing for multiplayer savegames
+]]></en>
+
+<de><![CDATA[
+Erweitert das Verkaufspreissystem von Farming Simulator um eine zusätzliche dynamische monatliche Marktebene. Die Preislogik des Grundspiels bleibt im Standardmodus vollständig erhalten und bildet die Basis. Darauf aufbauend wird eine unabhängige Marktanpassung berechnet, die monatliche Preisbewegungen je Warengruppe erzeugt.
+
+Optional kann ein Jahresmittelwert-Modus aktiviert werden. In diesem Modus wird die Giants-Saisonpreiskurve deaktiviert und durch einen stabilen Jahresmittelwert ersetzt. Dieser Jahresmittelwert basiert auf der üblichen Giants-Preislogik inklusive Schwierigkeitsgrad und Einfluss der Verkaufsstelle. Er dient als konstante Orientierung über das gesamte Jahr und ermöglicht es dem Spieler, den besten Verkaufszeitpunkt selbst zu bestimmen, ohne sich auf vorhersehbare saisonale Spitzen verlassen zu müssen.
+
+Getreide, Ölfrüchte, Gemüse, Futterpflanzen, Holz, Tierprodukte und verarbeitete Waren folgen jeweils eigenen Preisverläufen. Dadurch entstehen unterschiedliche Marktreaktionen statt einheitlicher Schwankungen über alle Produkte hinweg.
+
+Eine eigene Marktseite zeigt den Grundspielpreis, den dynamisch angepassten Verkaufspreis oder den Jahresmittelwert je nach Modus, die prozentuale Abweichung, die Verkaufsstelle sowie den besten Verkaufsmonat aus dem Grundspiel. Suche und Lagerfilter ermöglichen eine schnelle Navigation durch alle Produkte.
+
+Alle Berechnungen erfolgen im Multiplayer serverseitig, um identische Preise für alle Spieler sicherzustellen.
+
+Funktionen:
+- zusätzliche dynamische monatliche Marktebene auf Basis der Grundspielpreise
+- optionaler Jahresmittelwert-Modus als Ersatz der Giants-Saisonkurve
+- Jahresmittelwert basierend auf Giants-Preislogik, Schwierigkeitsgrad und Verkaufsstelle
+- getrennte Preisverläufe je Warengruppe
+- Vergleich zwischen Grundspielpreis und dynamischem Marktergebnis
+- Anzeige der prozentualen Abweichung
+- Ingame-Marktübersicht mit Suche und Lagerfilter
+- automatische Erkennung verkaufbarer Produkte aus Maps und Mods
+- manuelle Zuordnung von Warengruppen für eigene oder falsch erkannte Produkte
+- serverseitige Preisberechnung im Multiplayer
+]]></de>
+
+<fr><![CDATA[
+Étend le système de prix de vente de Farming Simulator avec une couche de marché mensuelle dynamique supplémentaire. Le système de prix du jeu de base reste entièrement conservé en mode standard et sert de fondation. Par-dessus celui-ci, un ajustement de marché indépendant génère des variations mensuelles selon les groupes de produits et l’état global du marché.
+
+Un mode de moyenne annuelle peut être activé en option. Dans ce mode, la courbe saisonnière de Giants est désactivée et remplacée par une valeur moyenne annuelle stable. Cette moyenne annuelle est calculée à partir de la logique de prix de Giants, incluant le niveau de difficulté et l’influence du point de vente. Elle fournit une référence constante sur toute l’année et permet au joueur de déterminer le meilleur moment de vente sans dépendre de pics saisonniers prévisibles.
+
+Les céréales, oléagineux, légumes, cultures fourragères, bois, produits animaux et produits transformés suivent chacun des courbes de prix distinctes. Cela évite des fluctuations uniformes et crée un comportement de marché plus réaliste.
+
+Une page de marché dédiée affiche le prix de base du jeu, le prix ajusté dynamiquement ou la valeur moyenne annuelle selon le mode, la variation en pourcentage, le point de vente ainsi que le meilleur mois de vente du jeu de base. Une fonction de recherche et un filtre de stockage facilitent la navigation.
+
+Tous les calculs de marché sont effectués côté serveur en multijoueur afin d’assurer des prix identiques pour tous les joueurs.
+
+Fonctions :
+- couche de marché mensuelle dynamique supplémentaire basée sur les prix du jeu de base
+- mode moyenne annuelle optionnel remplaçant la courbe saisonnière de Giants
+- moyenne annuelle basée sur la logique de prix de Giants, la difficulté et le point de vente
+- courbes de prix indépendantes par groupe de produits
+- comparaison entre prix de base et résultat de marché dynamique
+- affichage de l’écart en pourcentage
+- page de marché en jeu avec recherche et filtre de stockage
+- détection automatique des produits vendables issus des cartes et des mods
+- attribution manuelle des groupes de produits pour les éléments personnalisés ou mal détectés
+- calcul des prix côté serveur en multijoueur
+]]></fr>
+</description>
+    <l10n filenamePrefix="languages/l10n" />
+    <iconFilename>icon_DynamicMarket.dds</iconFilename>
+    <multiplayer supported="true"/>
+    <extraSourceFiles>
+        <sourceFile filename="scripts/DynamicMarket.lua"/>
+    </extraSourceFiles>
+</modDesc>
