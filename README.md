@@ -1,5 +1,7 @@
 # Dynamic Market
 
+Sharemods: https://sharemods.com/wxsmzp3m8uw5/FS25_DynamicMarket.zip.html
+
 Dynamic Market is a Farming Simulator 25 mod that enhances the base game economy with a dynamic pricing system based on supply, demand and player interaction.
 
 ## Features
