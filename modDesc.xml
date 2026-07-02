@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="110">
     <author>Nalathan</author>
-    <version>1.0.1.0</version>
+    <version>1.0.2.0</version>
     <title>
         <en>Dynamic Market</en>
         <de>Dynamischer Markt</de>
@@ -32,6 +32,9 @@ Features:
 
 Feedback and issues on GitHub: https://github.com/Nalathan01
 
+Changelog 1.0.2.0:
+- added italian language (thx to FirenzeIT)
+
 Changelog 1.0.1.0:
 - UI adjustments for better text readability
 - Revised French translations]]></en>
@@ -59,6 +62,9 @@ Funktionen:
 
 Feedback und Fehlerberichte auf GitHub: https://github.com/Nalathan01
 
+Changelog 1.0.2.0:
+- Italienische Sprache hinzugefügt (Dank an FirenzeIT)
+
 Changelog 1.0.1.0:
 - UI-Anpassungen für bessere Textlesbarkeit
 - Überarbeitete französische Übersetzungen]]></de>
@@ -85,6 +91,9 @@ Fonctions :
 - calcul des prix côté serveur en multijoueur
 
 Retours et signalement de problèmes sur GitHub: https://github.com/Nalathan01
+
+Changelog 1.0.2.0:
+- Ajout de la langue italienne (merci à FirenzeIT)
 
 Changelog 1.0.1.0:
 - Ajustements de l'interface utilisateur pour une meilleure lisibilité
