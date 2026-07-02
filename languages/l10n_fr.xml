@@ -2,61 +2,62 @@
 <l10n>
     <translationContributors/>
     <texts>
-        <text name="dm_notice_title" text="Marché Dynamique"/>
-        <text name="dm_notice_updated" text="Nouveaux prix du marché calculés."/>
-        <text name="dm_notice_stable" text="Les principaux groupes de produits restent stables."/>
-        <text name="dm_notice_up_light" text="%s augmente légèrement"/>
-        <text name="dm_notice_up_clear" text="%s augmente nettement"/>
-        <text name="dm_notice_up_strong" text="%s augmente fortement"/>
-        <text name="dm_notice_down_light" text="%s baisse légèrement"/>
-        <text name="dm_notice_down_clear" text="%s baisse nettement"/>
-        <text name="dm_notice_down_strong" text="%s baisse fortement"/>
-        <text name="dm_group_cereal" text="céréales"/>
-        <text name="dm_group_oilseed" text="oléagineux"/>
-        <text name="dm_group_rootcrop" text="racines"/>
-        <text name="dm_group_vegetable" text="légumes"/>
-        <text name="dm_group_forage" text="fourrages"/>
-        <text name="dm_group_fiber" text="fibres"/>
-        <text name="dm_group_animal" text="produits animaux"/>
-        <text name="dm_group_animalMarket" text="animaux"/>
-        <text name="dm_group_auxiliaryProduct" text="marchandises auxiliaires"/>
-        <text name="dm_group_production" text="produits transformés"/>
-        <text name="dm_group_preserved" text="conserves"/>
-        <text name="dm_group_packaged" text="marchandises emballées"/>
-        <text name="dm_group_construction" text="matériaux de construction"/>
-        <text name="dm_group_woodProduct" text="produits du bois"/>
-        <text name="dm_menu_title" text="Marché Dynamique"/>
-        <text name="dm_header_icon" text=""/>
-        <text name="dm_header_good" text="Produit"/>
-        <text name="dm_header_group" text="Groupe"/>
-        <text name="dm_header_market" text="Marché"/>
-        <text name="dm_header_trend" text=""/>
-        <text name="dm_header_baseprice" text="Prix de base"/>
-        <text name="dm_header_yearlyaverage" text="Year base"/>
-        <text name="dm_header_price" text="Current price"/>
-        <text name="dm_header_station" text="Best sell point"/>
-        <text name="dm_header_difference" text="Différence"/>
-        <text name="dm_header_bestmonthprice" text="Base price"/>
-        <text name="dm_header_bestmonth" text="Best month"/>
-        <text name="dm_footer_visible" text="Marchandises vendables"/>
-        <text name="dm_filter_stored_off" text="All goods"/>
-        <text name="dm_filter_stored_on" text="Only stored"/>
-        <text name="dm_settings_header" text="Dynamic Market"/>
-        <text name="dm_setting_pricebase_title" text="Price base"/>
-        <text name="dm_setting_pricebase_desc" text="Normal: current GIANTS seasonal prices. Year Ø: stable yearly base."/>
-        <text name="dm_setting_pricebase_normal" text="Normal"/>
-        <text name="dm_setting_pricebase_year" text="Year Ø"/>
-        <text name="dm_month_jan" text="Jan"/>
-        <text name="dm_month_feb" text="Feb"/>
-        <text name="dm_month_mar" text="Mar"/>
-        <text name="dm_month_apr" text="Apr"/>
-        <text name="dm_month_may" text="May"/>
-        <text name="dm_month_jun" text="Jun"/>
-        <text name="dm_month_jul" text="Jul"/>
-        <text name="dm_month_aug" text="Aug"/>
-        <text name="dm_month_sep" text="Sep"/>
-        <text name="dm_month_oct" text="Oct"/>
-        <text name="dm_month_nov" text="Nov"/>
-        <text name="dm_month_dec" text="Dec"/>
+	<text name="dm_notice_title" text="Marché dynamique"/>
+	<text name="dm_notice_updated" text="Nouveaux prix du marché calculés."/>
+	<text name="dm_notice_stable" text="Les principaux groupes de produits restent stables."/>
+	<text name="dm_notice_up_light" text="%s en légère hausse"/>
+	<text name="dm_notice_up_clear" text="%s en hausse nette"/>
+	<text name="dm_notice_up_strong" text="%s en forte hausse"/>
+	<text name="dm_notice_down_light" text="%s en légère baisse"/>
+	<text name="dm_notice_down_clear" text="%s en baisse nette"/>
+	<text name="dm_notice_down_strong" text="%s en forte baisse"/>
+	<text name="dm_group_cereal" text="Céréales"/>
+	<text name="dm_group_oilseed" text="Oléagineux"/>
+	<text name="dm_group_rootcrop" text="Plantes racines"/>
+	<text name="dm_group_vegetable" text="Légumes"/>
+	<text name="dm_group_forage" text="Fourrages"/>
+	<text name="dm_group_fiber" text="Fibres"/>
+	<text name="dm_group_animal" text="Produits animaux"/>
+	<text name="dm_group_animalMarket" text="Animaux"/>
+	<text name="dm_group_auxiliaryProduct" text="Produits auxiliaires"/>
+	<text name="dm_group_production" text="Produits transformés"/>
+	<text name="dm_group_preserved" text="Produits conservés"/>
+	<text name="dm_group_packaged" text="Produits emballés"/>
+	<text name="dm_group_construction" text="Matériaux de construction"/>
+	<text name="dm_group_woodProduct" text="Produits du bois"/>
+	<text name="dm_menu_title" text="Marché dynamique"/>
+	<text name="dm_header_icon" text=""/>
+	<text name="dm_header_good" text="Produit"/>
+	<text name="dm_header_group" text="Groupe"/>
+	<text name="dm_header_market" text="Marché"/>
+	<text name="dm_header_trend" text=""/>
+	<text name="dm_header_baseprice" text="Prix de base"/>
+	<text name="dm_header_yearlyaverage" text="Moyenne annuelle"/>
+	<text name="dm_header_price" text="Prix actuel"/>
+	<text name="dm_header_station" text="Meilleur point de vente"/>
+	<text name="dm_header_difference" text="Écart"/>
+	<text name="dm_header_bestmonthprice" text="Prix de base"/>
+	<text name="dm_header_bestmonth" text="Meilleur mois"/>
+	<text name="dm_footer_visible" text="Produits vendables"/>
+	<text name="dm_filter_stored_off" text="Tous les produits"/>
+	<text name="dm_filter_stored_on" text="Stock uniquement"/>
+	<text name="dm_settings_header" text="Marché dynamique"/>
+	<text name="dm_setting_pricebase_title" text="Base de prix"/>
+	<text name="dm_setting_pricebase_desc" text="Normal : prix saisonniers GIANTS. Moyenne annuelle : base stable sur l'année."/>
+	<text name="dm_setting_pricebase_normal" text="Normal"/>
+	<text name="dm_setting_pricebase_year" text="Moyenne annuelle"/>
+	<text name="dm_search_label" text="Recherche"/>
+	<text name="dm_month_jan" text="Jan"/>
+	<text name="dm_month_feb" text="Fév"/>
+	<text name="dm_month_mar" text="Mar"/>
+	<text name="dm_month_apr" text="Avr"/>
+	<text name="dm_month_may" text="Mai"/>
+	<text name="dm_month_jun" text="Juin"/>
+	<text name="dm_month_jul" text="Juil"/>
+	<text name="dm_month_aug" text="Août"/>
+	<text name="dm_month_sep" text="Sep"/>
+	<text name="dm_month_oct" text="Oct"/>
+	<text name="dm_month_nov" text="Nov"/>
+	<text name="dm_month_dec" text="Déc"/>
     </texts>
 </l10n>

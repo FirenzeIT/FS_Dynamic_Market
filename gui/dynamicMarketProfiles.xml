@@ -11,7 +11,7 @@
     </Profile>
     <Profile name="dynamicMarketSearchLabel" extends="baseReference" with="anchorMiddleLeft">
         <position value="0px 0px" />
-        <size value="85px 30px" />
+        <size value="120px 30px" />
         <textSize value="16px" />
         <textBold value="true" />
         <textUpperCase value="true" />
@@ -19,7 +19,7 @@
         <textAlignment value="left" />
     </Profile>
     <Profile name="dynamicMarketSearchInput" extends="baseReference" with="anchorMiddleLeft">
-        <position value="90px 0px" />
+        <position value="155px 0px" />
         <size value="360px 30px" />
         <imageColor value="$preset_fs25_colorGreyDark" />
         <imageFocusedColor value="$preset_fs25_colorGreyDark" />
@@ -35,7 +35,7 @@
         <maxInputTextWidth value="330px" />
     </Profile>
     <Profile name="dynamicMarketStoredOnlyButton" extends="wideButton" with="anchorMiddleLeft">
-        <position value="470px 0px" />
+        <position value="530px 0px" />
         <size value="230px 30px" />
         <textSize value="15px" />
         <textUpperCase value="true" />
@@ -109,12 +109,12 @@
     <Profile name="dynamicMarketRowCellMarket" extends="dynamicMarketRowCellCenter">
         <textBold value="true" />
     </Profile>
-    <Profile name="dynamicMarketRowCellStation" extends="dynamicMarketRowCellLeft">
-        <textAlignment value="center" />
-        <textAutoWidth value="false" />
-        <textMaxWidth value="450px" />
-        <textLayoutMode value="clip" />
-    </Profile>
+	<Profile name="dynamicMarketRowCellStation" extends="dynamicMarketRowCellLeft">
+		<textAlignment value="center" />
+		<textAutoWidth value="false" />
+		<textMaxWidth value="315px" />
+		<textLayoutMode value="clip" />
+	</Profile>
     <Profile name="dynamicMarketListSliderBox" extends="fs25_listSliderBox" with="anchorTopStretchingX pivotTopRight">
         <position value="28px -84px" />
         <absoluteSizeOffset value="0px 80px" />
