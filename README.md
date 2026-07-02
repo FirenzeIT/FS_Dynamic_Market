@@ -15,7 +15,7 @@ Dynamic Market is a Farming Simulator 25 mod that enhances the base game economy
 
 ## Current version
 
-Public ModHub release: 1.0.0.0
+Public ModHub release: 1.0.1.0
 
 ## Feedback
 
