@@ -6,9 +6,12 @@ function DynamicMarketSettings.new(dynamicMarket, customMt)
     self.dynamicMarket = dynamicMarket
     self.installed = false
     self.mode = dynamicMarket ~= nil and dynamicMarket.PRICE_BASE_YEAR_AVERAGE or 2
+    self.dailyRecalcMode = dynamicMarket ~= nil and dynamicMarket.DAILY_RECALC_DISABLED or 1
     self.settingsHeader = nil
     self.settingsRow = nil
+    self.dailyRecalcRow = nil
     self.priceBaseOption = nil
+    self.dailyRecalcOption = nil
     self.settingsInitialized = false
     return self
 end
@@ -39,10 +42,24 @@ function DynamicMarketSettings:getSaveKey()
     return "gameSettings.dynamicMarket.priceBase#mode"
 end
 
+function DynamicMarketSettings:getDailyRecalcSaveKey()
+    return "gameSettings.dynamicMarket.dailyRecalc#mode"
+end
+
 function DynamicMarketSettings:normalizeMode(mode)
     mode = tonumber(mode) or 2
     if mode ~= 1 and mode ~= 2 then
         mode = 2
+    end
+    return mode
+end
+
+function DynamicMarketSettings:normalizeDailyRecalcMode(mode)
+    local disabled = self.dynamicMarket ~= nil and self.dynamicMarket.DAILY_RECALC_DISABLED or 1
+    local enabled = self.dynamicMarket ~= nil and self.dynamicMarket.DAILY_RECALC_ENABLED or 2
+    mode = tonumber(mode) or disabled
+    if mode ~= disabled and mode ~= enabled then
+        mode = disabled
     end
     return mode
 end
@@ -53,18 +70,29 @@ function DynamicMarketSettings:loadSettings()
         mode = Utils.getNoNil(getXMLInt(g_savegameXML, self:getSaveKey()), mode)
     end
     self.mode = self:normalizeMode(mode)
+
+    local dailyRecalcMode = self.dailyRecalcMode
+    if g_savegameXML ~= nil and getXMLInt ~= nil then
+        dailyRecalcMode = Utils.getNoNil(getXMLInt(g_savegameXML, self:getDailyRecalcSaveKey()), dailyRecalcMode)
+    end
+    self.dailyRecalcMode = self:normalizeDailyRecalcMode(dailyRecalcMode)
 end
 
 function DynamicMarketSettings:saveSettings()
     if g_savegameXML ~= nil and setXMLInt ~= nil then
         setXMLInt(g_savegameXML, self:getSaveKey(), self.mode)
+        setXMLInt(g_savegameXML, self:getDailyRecalcSaveKey(), self.dailyRecalcMode)
     end
 end
 
 function DynamicMarketSettings:applyToModule(save)
     self.mode = self:normalizeMode(self.mode)
+    self.dailyRecalcMode = self:normalizeDailyRecalcMode(self.dailyRecalcMode)
     if self.dynamicMarket ~= nil and self.dynamicMarket.setPriceBaseMode ~= nil then
         self.dynamicMarket:setPriceBaseMode(self.mode, "gameSetting")
+    end
+    if self.dynamicMarket ~= nil and self.dynamicMarket.setDailyRecalcMode ~= nil then
+        self.dynamicMarket:setDailyRecalcMode(self.dailyRecalcMode, "gameSetting")
     end
     if save == true then
         self:saveSettings()
@@ -162,9 +190,39 @@ function DynamicMarketSettings:setTooltipText(element, text)
     end
 end
 
-function DynamicMarketSettings:getDescriptionText()
-    if g_i18n ~= nil then
-        return g_i18n:getText("dm_setting_pricebase_desc")
+DynamicMarketSettings.OPTION_DEFS = {
+    priceBase = {
+        rowName = "dmPriceBaseRow",
+        optionId = "dmPriceBase",
+        modeField = "mode",
+        titleKey = "dm_setting_pricebase_title",
+        descKey = "dm_setting_pricebase_desc",
+        textKeys = {"dm_setting_pricebase_normal", "dm_setting_pricebase_year"},
+        optionField = "priceBaseOption",
+        rowField = "settingsRow",
+        normalizeFn = "normalizeMode",
+        onClickFn = "onClickPriceBase"
+    },
+    dailyRecalc = {
+        rowName = "dmDailyRecalcRow",
+        optionId = "dmDailyRecalc",
+        modeField = "dailyRecalcMode",
+        titleKey = "dm_setting_dailyrecalc_title",
+        descKey = "dm_setting_dailyrecalc_desc",
+        textKeys = {"dm_setting_dailyrecalc_off", "dm_setting_dailyrecalc_on"},
+        optionField = "dailyRecalcOption",
+        rowField = "dailyRecalcRow",
+        normalizeFn = "normalizeDailyRecalcMode",
+        onClickFn = "onClickDailyRecalc"
+    }
+}
+
+DynamicMarketSettings.OPTION_ORDER = {"priceBase", "dailyRecalc"}
+
+function DynamicMarketSettings:getDescriptionText(kind)
+    local def = self.OPTION_DEFS[kind or "priceBase"]
+    if g_i18n ~= nil and def ~= nil then
+        return g_i18n:getText(def.descKey)
     end
     return ""
 end
@@ -197,31 +255,52 @@ function DynamicMarketSettings:setNativeOptionTooltip(option, text)
     end
 end
 
-function DynamicMarketSettings:updateSettingsDescriptionText()
-    self:setNativeOptionTooltip(self.priceBaseOption, self:getDescriptionText())
+function DynamicMarketSettings:updateSettingsDescriptionText(kind)
+    local def = self.OPTION_DEFS[kind or "priceBase"]
+    if def == nil then
+        return
+    end
+    self:setNativeOptionTooltip(self[def.optionField], self:getDescriptionText(kind))
 end
 
-function DynamicMarketSettings:getIsPriceBaseFocused()
-    if self.priceBaseOption == nil then
+function DynamicMarketSettings:getIsOptionFocused(kind)
+    local def = self.OPTION_DEFS[kind]
+    if def == nil then
         return false
     end
-    if self.priceBaseOption.getIsFocused ~= nil then
-        local ok, focused = pcall(self.priceBaseOption.getIsFocused, self.priceBaseOption)
+    local option = self[def.optionField]
+    if option == nil then
+        return false
+    end
+    if option.getIsFocused ~= nil then
+        local ok, focused = pcall(option.getIsFocused, option)
         if ok and focused == true then
             return true
         end
     end
-    if self.priceBaseOption.focused == true or self.priceBaseOption.focusActive == true then
+    if option.focused == true or option.focusActive == true then
         return true
     end
     if FocusManager ~= nil and FocusManager.currentFocusData ~= nil then
-        return FocusManager.currentFocusData.focusElement == self.priceBaseOption
+        return FocusManager.currentFocusData.focusElement == option
     end
     return false
 end
 
+function DynamicMarketSettings:getIsPriceBaseFocused()
+    return self:getIsOptionFocused("priceBase")
+end
+
+function DynamicMarketSettings:onOptionFocus(kind)
+    self:updateSettingsDescriptionText(kind)
+end
+
 function DynamicMarketSettings:onPriceBaseFocus()
-    self:updateSettingsDescriptionText()
+    self:onOptionFocus("priceBase")
+end
+
+function DynamicMarketSettings:onDailyRecalcFocus()
+    self:onOptionFocus("dailyRecalc")
 end
 
 function DynamicMarketSettings:refreshFocusHandling(element)
@@ -255,24 +334,30 @@ function DynamicMarketSettings:registerFocusData(element)
     return FocusManager:loadElementFromCustomValues(element, nil, {}, false, false)
 end
 
-function DynamicMarketSettings:setOptionTexts(option)
+function DynamicMarketSettings:setOptionTexts(kind)
+    local def = self.OPTION_DEFS[kind]
+    if def == nil then
+        return
+    end
+    local option = self[def.optionField]
     if option == nil then
         return
     end
 
     if option.setLabel ~= nil then
-        option:setLabel(g_i18n:getText("dm_setting_pricebase_title"))
+        option:setLabel(g_i18n:getText(def.titleKey))
     end
     if option.setTexts ~= nil then
-        option:setTexts({g_i18n:getText("dm_setting_pricebase_normal"), g_i18n:getText("dm_setting_pricebase_year")})
+        option:setTexts({g_i18n:getText(def.textKeys[1]), g_i18n:getText(def.textKeys[2])})
     end
     if option.setState ~= nil then
-        option:setState(self.mode)
+        option:setState(self[def.modeField])
     end
-    self:setTooltipText(option, g_i18n:getText("dm_setting_pricebase_desc"))
+    self:setTooltipText(option, g_i18n:getText(def.descKey))
 end
 
-function DynamicMarketSettings:getStateFromCallback(a, b, c)
+function DynamicMarketSettings:getStateFromCallback(kind, a, b, c)
+    local def = self.OPTION_DEFS[kind]
     if type(a) == "number" then
         return a
     end
@@ -282,27 +367,36 @@ function DynamicMarketSettings:getStateFromCallback(a, b, c)
     if type(c) == "number" then
         return c
     end
-    if self.priceBaseOption ~= nil and self.priceBaseOption.getState ~= nil then
-        return self.priceBaseOption:getState()
+    local option = def ~= nil and self[def.optionField] or nil
+    if option ~= nil and option.getState ~= nil then
+        return option:getState()
     end
-    return self.mode
+    return def ~= nil and self[def.modeField] or 1
 end
 
 function DynamicMarketSettings:onClickPriceBase(a, b, c)
-    self.mode = self:normalizeMode(self:getStateFromCallback(a, b, c))
+    self.mode = self:normalizeMode(self:getStateFromCallback("priceBase", a, b, c))
     self:applyToModule(true)
-    self:setOptionTexts(self.priceBaseOption)
+    self:setOptionTexts("priceBase")
     self:onPriceBaseFocus()
 end
 
-function DynamicMarketSettings:prepareSettingsRow(row)
-    if row == nil then
+function DynamicMarketSettings:onClickDailyRecalc(a, b, c)
+    self.dailyRecalcMode = self:normalizeDailyRecalcMode(self:getStateFromCallback("dailyRecalc", a, b, c))
+    self:applyToModule(true)
+    self:setOptionTexts("dailyRecalc")
+    self:onDailyRecalcFocus()
+end
+
+function DynamicMarketSettings:prepareOptionRow(row, kind)
+    local def = self.OPTION_DEFS[kind]
+    if row == nil or def == nil then
         return false
     end
 
     self:resetFocusData(row)
 
-    local description = self:getDescriptionText()
+    local description = self:getDescriptionText(kind)
 
     local function prepareChild(element)
         if element == nil then
@@ -311,10 +405,10 @@ function DynamicMarketSettings:prepareSettingsRow(row)
         element.id = nil
         self:setTooltipText(element, description)
         element.onFocusCallback = function()
-            self:onPriceBaseFocus()
+            self:onOptionFocus(kind)
         end
         element.onHighlightCallback = function()
-            self:onPriceBaseFocus()
+            self:onOptionFocus(kind)
         end
         if element.elements ~= nil then
             for _, child in pairs(element.elements) do
@@ -324,21 +418,21 @@ function DynamicMarketSettings:prepareSettingsRow(row)
     end
 
     row.id = nil
-    row.name = "dmPriceBaseRow"
+    row.name = def.rowName
     row.onFocusCallback = function()
-        self:onPriceBaseFocus()
+        self:onOptionFocus(kind)
     end
     row.onHighlightCallback = function()
-        self:onPriceBaseFocus()
+        self:onOptionFocus(kind)
     end
-    self.settingsRow = row
+    self[def.rowField] = row
     self:setTooltipText(row, description)
 
     if row.elements ~= nil then
         for _, element in pairs(row.elements) do
             prepareChild(element)
             if element.typeName == "Text" and element.setText ~= nil then
-                element:setText(g_i18n:getText("dm_setting_pricebase_title"))
+                element:setText(g_i18n:getText(def.titleKey))
             end
         end
     end
@@ -351,8 +445,8 @@ function DynamicMarketSettings:prepareSettingsRow(row)
         return false
     end
 
-    option.id = "dmPriceBase"
-    option.name = "dmPriceBase"
+    option.id = def.optionId
+    option.name = def.optionId
     option.handleFocus = true
     if option.setHandleFocus ~= nil then
         option:setHandleFocus(true)
@@ -365,20 +459,20 @@ function DynamicMarketSettings:prepareSettingsRow(row)
     option.isAlwaysFocusedOnOpen = false
     option.focused = false
     option.onFocusCallback = function()
-        self:onPriceBaseFocus()
+        self:onOptionFocus(kind)
     end
     option.onHighlightCallback = function()
-        self:onPriceBaseFocus()
+        self:onOptionFocus(kind)
     end
     option.onClickCallback = function(a, b, c)
         if FocusManager ~= nil then
             FocusManager:setFocus(option)
         end
-        self:onPriceBaseFocus()
-        self:onClickPriceBase(a, b, c)
+        self:onOptionFocus(kind)
+        self[def.onClickFn](self, a, b, c)
     end
-    self.priceBaseOption = option
-    self:setOptionTexts(option)
+    self[def.optionField] = option
+    self:setOptionTexts(kind)
     self:refreshFocusHandling(row)
     self:refreshFocusHandling(option)
     return true
@@ -403,9 +497,11 @@ function DynamicMarketSettings:initializeSettingsOption()
     header:setText(g_i18n:getText("dm_settings_header"))
     self.settingsHeader = header
 
-    local row = rowTemplate:clone(layout)
-    if not self:prepareSettingsRow(row) then
-        return false
+    for _, kind in ipairs(self.OPTION_ORDER) do
+        local row = rowTemplate:clone(layout)
+        if not self:prepareOptionRow(row, kind) then
+            return false
+        end
     end
 
     self.settingsInitialized = true
@@ -414,15 +510,21 @@ function DynamicMarketSettings:initializeSettingsOption()
     end
 
     self:registerFocusData(header)
-    self:registerFocusData(row)
+    for _, kind in ipairs(self.OPTION_ORDER) do
+        local def = self.OPTION_DEFS[kind]
+        self:registerFocusData(self[def.rowField])
+    end
 
     if FocusManager ~= nil and FocusManager.setGui ~= nil and g_inGameMenu ~= nil then
         FocusManager:setGui(g_inGameMenu)
     end
 
     self:refreshFocusHandling(layout)
-    self:refreshFocusHandling(row)
-    self:refreshFocusHandling(self.priceBaseOption)
+    for _, kind in ipairs(self.OPTION_ORDER) do
+        local def = self.OPTION_DEFS[kind]
+        self:refreshFocusHandling(self[def.rowField])
+        self:refreshFocusHandling(self[def.optionField])
+    end
     self:updateSettingsFrame()
     return true
 end
@@ -430,21 +532,28 @@ end
 function DynamicMarketSettings:updateSettingsFrame()
     self:loadSettings()
     self:applyToModule(false)
-    self:setOptionTexts(self.priceBaseOption)
 
     if self.settingsHeader ~= nil then
         self.settingsHeader:setVisible(true)
     end
-    if self.settingsRow ~= nil then
-        self.settingsRow:setVisible(true)
+
+    for _, kind in ipairs(self.OPTION_ORDER) do
+        local def = self.OPTION_DEFS[kind]
+        self:setOptionTexts(kind)
+        local row = self[def.rowField]
+        if row ~= nil then
+            row:setVisible(true)
+        end
+        self:refreshFocusHandling(row)
+        self:refreshFocusHandling(self[def.optionField])
     end
-    self:refreshFocusHandling(self.settingsRow)
-    self:refreshFocusHandling(self.priceBaseOption)
 end
 
 function DynamicMarketSettings:onSettingsFrameUpdate(dt)
-    if self:getIsPriceBaseFocused() then
-        self:updateSettingsDescriptionText()
+    for _, kind in ipairs(self.OPTION_ORDER) do
+        if self:getIsOptionFocused(kind) then
+            self:updateSettingsDescriptionText(kind)
+        end
     end
 end
 

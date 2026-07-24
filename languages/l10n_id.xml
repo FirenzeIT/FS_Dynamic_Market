@@ -11,20 +11,12 @@
         <text name="dm_notice_down_light" text="%s falls slightly"/>
         <text name="dm_notice_down_clear" text="%s falls noticeably"/>
         <text name="dm_notice_down_strong" text="%s falls strongly"/>
-        <text name="dm_group_cereal" text="cereals"/>
-        <text name="dm_group_oilseed" text="oilseeds"/>
-        <text name="dm_group_rootcrop" text="root crops"/>
-        <text name="dm_group_vegetable" text="vegetables"/>
+        <text name="dm_group_cropFarming" text="cereals"/>
         <text name="dm_group_forage" text="forage crops"/>
-        <text name="dm_group_fiber" text="fiber crops"/>
-        <text name="dm_group_animal" text="animal products"/>
-        <text name="dm_group_animalMarket" text="animals"/>
-        <text name="dm_group_auxiliaryProduct" text="auxiliary goods"/>
-        <text name="dm_group_production" text="processed goods"/>
-        <text name="dm_group_preserved" text="preserved goods"/>
-        <text name="dm_group_packaged" text="packaged goods"/>
-        <text name="dm_group_construction" text="construction materials"/>
-        <text name="dm_group_woodProduct" text="wood products"/>
+        <text name="dm_group_animalProduct" text="animal products"/>
+        <text name="dm_group_livestock" text="animals"/>
+        <text name="dm_group_processedGoods" text="processed goods"/>
+        <text name="dm_group_buildingMaterial" text="construction materials"/>
         <text name="dm_menu_title" text="Dynamic Market"/>
         <text name="dm_header_icon" text=""/>
         <text name="dm_header_good" text="Good"/>
@@ -38,6 +30,7 @@
         <text name="dm_header_difference" text="Selisih"/>
         <text name="dm_header_bestmonthprice" text="Base price"/>
         <text name="dm_header_bestmonth" text="Best month"/>
+        <text name="dm_header_stock" text="Stock"/>
         <text name="dm_search_label" text="Search"/>
         <text name="dm_footer_visible" text=""/>
         <text name="dm_filter_stored_off" text="All goods"/>
@@ -47,6 +40,10 @@
         <text name="dm_setting_pricebase_desc" text="Normal: current GIANTS seasonal prices. Year Ø: stable yearly base."/>
         <text name="dm_setting_pricebase_normal" text="Normal"/>
         <text name="dm_setting_pricebase_year" text="Year Ø"/>
+        <text name="dm_setting_dailyrecalc_title" text="Daily recalculation"/>
+        <text name="dm_setting_dailyrecalc_desc" text="Off: recalculate only on month change. On: with multiple days per month, recalculate every day."/>
+        <text name="dm_setting_dailyrecalc_off" text="Off"/>
+        <text name="dm_setting_dailyrecalc_on" text="On"/>
         <text name="dm_month_jan" text="Jan"/>
         <text name="dm_month_feb" text="Feb"/>
         <text name="dm_month_mar" text="Mar"/>

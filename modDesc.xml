@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="110">
     <author>Nalathan</author>
-    <version>1.0.2.0</version>
+    <version>1.1.0.0</version>
     <title>
         <en>Dynamic Market</en>
         <de>Dynamischer Markt</de>
@@ -31,6 +31,11 @@ Features:
 - server-authoritative pricing for multiplayer savegames
 
 Feedback and issues on GitHub: https://github.com/Nalathan01
+
+Changelog 1.1.0.0:
+- New option: daily market recalculation, for savegames with multiple days per month
+- Product groups simplified from 14 to 6 more realistic categories, for more frequent market swings
+- Market overview reworked: added group and stock columns, sortable column headers
 
 Changelog 1.0.2.0:
 - added italian language (thx to FirenzeIT)
@@ -62,6 +67,11 @@ Funktionen:
 
 Feedback und Fehlerberichte auf GitHub: https://github.com/Nalathan01
 
+Changelog 1.1.0.0:
+- Neue Option: tägliche Marktneuberechnung, für Savegames mit mehreren Tagen pro Monat
+- Warengruppen von 14 auf 6 realistischere Kategorien vereinfacht, für häufigere Marktschwankungen
+- Marktübersicht überarbeitet: Gruppen- und Bestandsspalte ergänzt, sortierbare Spaltenköpfe
+
 Changelog 1.0.2.0:
 - Italienische Sprache hinzugefügt (Dank an FirenzeIT)
 
@@ -91,6 +101,11 @@ Fonctions :
 - calcul des prix côté serveur en multijoueur
 
 Retours et signalement de problèmes sur GitHub: https://github.com/Nalathan01
+
+Changelog 1.1.0.0:
+- Nouvelle option: recalcul quotidien du marché, pour les parties avec plusieurs jours par mois
+- Groupes de produits simplifiés de 14 à 6 catégories plus réalistes, pour des fluctuations de marché plus fréquentes
+- Aperçu du marché actualisé: colonnes Groupe et Stock ajoutées, en-têtes de colonnes triables
 
 Changelog 1.0.2.0:
 - Ajout de la langue italienne (merci à FirenzeIT)

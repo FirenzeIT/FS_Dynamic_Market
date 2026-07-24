@@ -11,6 +11,17 @@ local function dmNumber(value)
     return tonumber(value) or 0
 end
 
+local function dmFormatStock(value)
+    local liters = tonumber(value) or 0
+    if g_i18n ~= nil and g_i18n.formatVolume ~= nil then
+        local ok, text = pcall(g_i18n.formatVolume, g_i18n, liters, 0)
+        if ok and text ~= nil then
+            return text
+        end
+    end
+    return string.format("%d l", math.floor(liters + 0.5))
+end
+
 local function dmMonthOrder(value)
     local month = tonumber(value)
     if month ~= nil then
@@ -127,16 +138,6 @@ function DynamicMarketMenuFrame:updateYearlyAverageOptionVisibility()
     local yearlyMode = self:isYearlyAverageEnabled()
     if self.yearlyAverageHeader ~= nil then
         self.yearlyAverageHeader:setVisible(true)
-        if self.yearlyAverageHeader.setText ~= nil then
-            if yearlyMode == true then
-                self.yearlyAverageHeader:setText(g_i18n:getText("dm_header_yearlyaverage"))
-            else
-                self.yearlyAverageHeader:setText(g_i18n:getText("dm_header_baseprice"))
-            end
-        end
-    end
-    if self.bestMonthPriceHeader ~= nil and self.bestMonthPriceHeader.setText ~= nil then
-        self.bestMonthPriceHeader:setText(g_i18n:getText("dm_header_difference"))
     end
     if self.monthHeader ~= nil then
         self.monthHeader:setVisible(yearlyMode ~= true)
@@ -235,6 +236,8 @@ function DynamicMarketMenuFrame:getSortValue(row, column)
         return dmNumber(row.marketFactor)
     elseif column == "price" then
         return dmNumber(row.bestPrice or row.currentBestPrice)
+    elseif column == "stock" then
+        return dmNumber(row.stockLevel)
     elseif column == "yearlyAverage" then
         if self:isYearlyAverageEnabled() then
             return dmNumber(row.yearlyAveragePrice)
@@ -352,7 +355,59 @@ function DynamicMarketMenuFrame:onClickStoredOnly(element)
     end
 end
 
+function DynamicMarketMenuFrame:getSortHeaderLabelKey(column)
+    if column == "yearlyAverage" then
+        if self:isYearlyAverageEnabled() then
+            return "dm_header_yearlyaverage"
+        end
+        return "dm_header_baseprice"
+    elseif column == "bestMonthPrice" then
+        return "dm_header_difference"
+    elseif column == "good" then
+        return "dm_header_good"
+    elseif column == "group" then
+        return "dm_header_group"
+    elseif column == "price" then
+        return "dm_header_price"
+    elseif column == "stock" then
+        return "dm_header_stock"
+    elseif column == "market" then
+        return "dm_header_market"
+    elseif column == "station" then
+        return "dm_header_station"
+    elseif column == "month" then
+        return "dm_header_bestmonth"
+    end
+    return nil
+end
+
+function DynamicMarketMenuFrame:getSortHeaderElements()
+    return {
+        good = self.goodsHeader,
+        group = self.groupHeader,
+        price = self.priceHeader,
+        stock = self.stockHeader,
+        market = self.marketHeader,
+        yearlyAverage = self.yearlyAverageHeader,
+        bestMonthPrice = self.bestMonthPriceHeader,
+        station = self.stationHeader,
+        month = self.monthHeader
+    }
+end
+
 function DynamicMarketMenuFrame:updateSortIcons()
+    if g_i18n == nil then
+        return
+    end
+    local activeColumn = DynamicMarketMenuFrame.sortColumn
+    local ascending = DynamicMarketMenuFrame.sortAscending ~= false
+    for column, element in pairs(self:getSortHeaderElements()) do
+        if element ~= nil and element.setText ~= nil then
+            local labelKey = self:getSortHeaderLabelKey(column)
+            local label = labelKey ~= nil and g_i18n:getText(labelKey) or ""
+            element:setText(label)
+        end
+    end
 end
 
 function DynamicMarketMenuFrame:getNumberOfSections()
@@ -386,17 +441,22 @@ function DynamicMarketMenuFrame:populateCellForItemInSection(list, section, inde
 
     local marketCell = cell:getAttribute("market")
     if marketCell ~= nil then
-        marketCell:setText(row.marketText or "")
-        if marketCell.setTextColor ~= nil then
-            local factor = tonumber(row.marketFactor) or 1
-            if factor > 1.005 then
-                marketCell:setTextColor(0.55, 0.82, 0.10, 1)
-            elseif factor < 0.995 then
-                marketCell:setTextColor(0.95, 0.10, 0.10, 1)
-            else
-                marketCell:setTextColor(0.75, 0.75, 0.75, 1)
-            end
+        local direction = row.trendDirection or "stable"
+        local r, g, b = 0.75, 0.75, 0.75
+        if direction == "up" then
+            r, g, b = 0.55, 0.82, 0.10
+        elseif direction == "down" then
+            r, g, b = 0.95, 0.10, 0.10
         end
+        marketCell:setText(tostring(row.marketText or ""))
+        if marketCell.setTextColor ~= nil then
+            marketCell:setTextColor(r, g, b, 1)
+        end
+    end
+
+    local stockCell = cell:getAttribute("stock")
+    if stockCell ~= nil then
+        stockCell:setText(dmFormatStock(row.stockLevel))
     end
 
     local priceCell = cell:getAttribute("price")
@@ -453,12 +513,20 @@ function DynamicMarketMenuFrame:onClickGoodsHeader(element)
     self:setSortColumn("good")
 end
 
+function DynamicMarketMenuFrame:onClickGroupHeader(element)
+    self:setSortColumn("group")
+end
+
 function DynamicMarketMenuFrame:onClickMarketHeader(element)
     self:setSortColumn("market")
 end
 
 function DynamicMarketMenuFrame:onClickPriceHeader(element)
     self:setSortColumn("price")
+end
+
+function DynamicMarketMenuFrame:onClickStockHeader(element)
+    self:setSortColumn("stock")
 end
 
 function DynamicMarketMenuFrame:onClickYearlyAverageHeader(element)
@@ -475,8 +543,8 @@ function DynamicMarketMenuFrame:onClickBestMonthPriceHeader(element)
     self:setSortColumn("bestMonthPrice")
 end
 
-function DynamicMarketMenuFrame:onClickBestMonthHeader(element)
-end
-
 function DynamicMarketMenuFrame:onClickMonthHeader(element)
+    if not self:isYearlyAverageEnabled() then
+        self:setSortColumn("month")
+    end
 end

@@ -3,20 +3,14 @@ DynamicMarket = {}
 DynamicMarket.MOD_NAME = g_currentModName or "FS25_DynamicMarket"
 DynamicMarket.MOD_DIR = g_currentModDirectory or ""
 DynamicMarket.LOG_PREFIX = "[DynamicMarket]"
-DynamicMarket.VERSION = "0.7.24.4"
+DynamicMarket.VERSION = "1.1.0.0"
 
--- Set to false to disable DynamicMarket price adjustments.
 DynamicMarket.APPLY_CURVES = true
 
--- Set to false to keep original GIANTS seasonal curves unchanged.
 DynamicMarket.CHANGE_EXISTING_CURVES = true
 
--- Set to false to disable monthly in-game market messages.
 DynamicMarket.PLAYER_MARKET_NOTICES = true
 
--- Set to false to hide the yearly average orientation value in the market page.
--- Shows the true arithmetic yearly average from the original basegame economic curve in the DynamicMarket page.
--- If enabled, DynamicMarket uses the yearly average as the neutral sale base instead of the current seasonal month price.
 DynamicMarket.ENABLE_YEARLY_AVERAGE = true
 DynamicMarket.USE_YEARLY_AVERAGE_AS_BASE_PRICE = true
 DynamicMarket.YEARLY_AVERAGE_FLAT_BASEGAME_GRAPH = true
@@ -24,12 +18,12 @@ DynamicMarket.PRICE_BASE_NORMAL = 1
 DynamicMarket.PRICE_BASE_YEAR_AVERAGE = 2
 DynamicMarket.priceBaseMode = DynamicMarket.PRICE_BASE_YEAR_AVERAGE
 
--- Minimum market movement for a message. 0.015 means 1.5%.
+DynamicMarket.DAILY_RECALC_DISABLED = 1
+DynamicMarket.DAILY_RECALC_ENABLED = 2
+DynamicMarket.dailyRecalcMode = DynamicMarket.DAILY_RECALC_DISABLED
+
 DynamicMarket.MARKET_NOTICE_MIN_MOVEMENT = 0.015
 
--- Add custom fill types here if automatic assignment is wrong.
--- Format: INTERNAL_FILLTYPE_NAME = "groupName"
--- Valid groups: cereal, oilseed, rootcrop, vegetable, forage, fiber, animal, animalMarket, auxiliaryProduct, production, preserved, packaged, construction, woodProduct.
 DynamicMarket.FILLTYPE_GROUP_OVERRIDES = {
     -- MY_CUSTOM_FILLTYPE = "production"
 }
@@ -66,37 +60,21 @@ source(DynamicMarket.MOD_DIR .. "scripts/DynamicMarketMenuFrame.lua")
 source(DynamicMarket.MOD_DIR .. "scripts/DynamicMarketSettings.lua")
 
 DynamicMarket.CURVES = {
-    cereal =      {1.18, 1.13, 1.07, 1.01, 0.95, 0.89, 0.84, 0.87, 0.94, 1.03, 1.11, 1.16},
-    oilseed =     {1.15, 1.10, 1.05, 1.00, 0.95, 0.91, 0.88, 0.91, 0.98, 1.05, 1.11, 1.15},
-    rootcrop =    {1.10, 1.07, 1.03, 0.99, 0.95, 0.91, 0.88, 0.91, 0.98, 1.04, 1.08, 1.10},
-    vegetable =   {1.12, 1.08, 1.04, 1.00, 0.96, 0.92, 0.90, 0.93, 0.99, 1.04, 1.08, 1.11},
-    forage =      {1.12, 1.06, 1.00, 0.94, 0.88, 0.82, 0.80, 0.86, 0.96, 1.05, 1.11, 1.13},
-    fiber =       {1.10, 1.06, 1.02, 0.98, 0.94, 0.90, 0.88, 0.92, 0.99, 1.05, 1.10, 1.12},
-    animal =      {1.08, 1.05, 1.02, 0.99, 0.96, 0.94, 0.94, 0.97, 1.01, 1.04, 1.07, 1.08},
-    animalMarket ={1.12, 1.08, 1.04, 1.00, 0.96, 0.93, 0.92, 0.95, 1.00, 1.05, 1.09, 1.12},
-    auxiliaryProduct = {1.03, 1.02, 1.01, 1.00, 0.99, 0.98, 0.98, 0.99, 1.00, 1.01, 1.02, 1.03},
-    production =  {1.07, 1.04, 1.02, 0.99, 0.96, 0.94, 0.95, 0.98, 1.01, 1.04, 1.06, 1.07},
-    preserved =   {1.09, 1.06, 1.03, 1.00, 0.97, 0.94, 0.93, 0.96, 1.00, 1.03, 1.06, 1.09},
-    packaged =    {1.06, 1.04, 1.02, 1.00, 0.97, 0.95, 0.95, 0.98, 1.01, 1.03, 1.05, 1.06},
-    construction ={1.05, 1.03, 1.01, 1.00, 0.98, 0.96, 0.96, 0.98, 1.01, 1.03, 1.05, 1.06},
-    woodProduct = {1.09, 1.06, 1.03, 1.00, 0.96, 0.93, 0.92, 0.95, 1.00, 1.05, 1.08, 1.10}
+    cropFarming =     {1.14, 1.10, 1.05, 1.00, 0.95, 0.91, 0.88, 0.91, 0.97, 1.04, 1.10, 1.13},
+    forage =          {1.12, 1.06, 1.00, 0.94, 0.88, 0.82, 0.80, 0.86, 0.96, 1.05, 1.11, 1.13},
+    animalProduct =   {1.08, 1.05, 1.02, 0.99, 0.96, 0.94, 0.94, 0.97, 1.01, 1.04, 1.07, 1.08},
+    livestock =       {1.12, 1.08, 1.04, 1.00, 0.96, 0.93, 0.92, 0.95, 1.00, 1.05, 1.09, 1.12},
+    processedGoods =  {1.06, 1.04, 1.02, 1.00, 0.98, 0.96, 0.96, 0.98, 1.01, 1.03, 1.05, 1.06},
+    buildingMaterial ={1.07, 1.05, 1.02, 1.00, 0.97, 0.95, 0.94, 0.97, 1.01, 1.04, 1.07, 1.08}
 }
 
 DynamicMarket.MARKET_GROUPS = {
-    cereal =       {volatility = 0.10, weather = 0.20, supply = 0.55, demand = 0.25},
-    oilseed =      {volatility = 0.10, weather = 0.15, supply = 0.45, demand = 0.40},
-    rootcrop =     {volatility = 0.09, weather = 0.25, supply = 0.45, demand = 0.30},
-    vegetable =    {volatility = 0.13, weather = 0.30, supply = 0.35, demand = 0.35},
-    forage =       {volatility = 0.11, weather = 0.45, supply = 0.35, demand = 0.20},
-    fiber =        {volatility = 0.09, weather = 0.15, supply = 0.30, demand = 0.55},
-    animal =       {volatility = 0.04, weather = 0.05, supply = 0.20, demand = 0.75},
-    animalMarket = {volatility = 0.07, weather = 0.10, supply = 0.35, demand = 0.55},
-    auxiliaryProduct = {volatility = 0.025, weather = 0.02, supply = 0.10, demand = 0.88},
-    production =   {volatility = 0.05, weather = 0.05, supply = 0.25, demand = 0.70},
-    preserved =    {volatility = 0.06, weather = 0.08, supply = 0.25, demand = 0.67},
-    packaged =     {volatility = 0.045, weather = 0.03, supply = 0.20, demand = 0.77},
-    construction = {volatility = 0.055, weather = 0.02, supply = 0.15, demand = 0.83},
-    woodProduct =  {volatility = 0.075, weather = 0.15, supply = 0.25, demand = 0.60}
+    cropFarming =      {volatility = 0.18, weather = 0.25, supply = 0.30, demand = 0.45},
+    forage =           {volatility = 0.17, weather = 0.40, supply = 0.25, demand = 0.35},
+    animalProduct =    {volatility = 0.04, weather = 0.05, supply = 0.20, demand = 0.75},
+    livestock =        {volatility = 0.07, weather = 0.10, supply = 0.35, demand = 0.55},
+    processedGoods =   {volatility = 0.045, weather = 0.045, supply = 0.20, demand = 0.76},
+    buildingMaterial = {volatility = 0.065, weather = 0.085, supply = 0.20, demand = 0.72}
 }
 
 DynamicMarket.__marketFactors = {}
@@ -115,83 +93,56 @@ DynamicMarket.NOTICE_TEXTS = {
     en = {
         dm_notice_title = "Dynamic Market",
         dm_notice_stable = "Market groups remain stable.",
-        dm_group_cereal = "cereals",
-        dm_group_oilseed = "oilseeds",
-        dm_group_rootcrop = "root crops",
-        dm_group_vegetable = "vegetables",
+        dm_group_cropFarming = "crop farming",
         dm_group_forage = "forage crops",
-        dm_group_fiber = "fiber crops",
-        dm_group_animal = "animal products",
-        dm_group_animalMarket = "animals",
-        dm_group_auxiliaryProduct = "auxiliary goods",
-        dm_group_production = "processed goods",
-        dm_group_preserved = "preserved goods",
-        dm_group_packaged = "packaged goods",
-        dm_group_construction = "construction materials",
-        dm_group_woodProduct = "wood products"
+        dm_group_animalProduct = "animal products",
+        dm_group_livestock = "livestock",
+        dm_group_processedGoods = "processed goods",
+        dm_group_buildingMaterial = "building materials"
     },
     de = {
         dm_notice_title = "Dynamischer Markt",
         dm_notice_stable = "Warengruppen bleiben stabil.",
-        dm_group_cereal = "Getreide",
-        dm_group_oilseed = "Ölfrüchte",
-        dm_group_rootcrop = "Hackfrüchte",
-        dm_group_vegetable = "Gemüse",
+        dm_group_cropFarming = "Ackerfrüchte",
         dm_group_forage = "Futterpflanzen",
-        dm_group_fiber = "Faserpflanzen",
-        dm_group_animal = "Tierprodukte",
-        dm_group_animalMarket = "Tiere",
-        dm_group_auxiliaryProduct = "Hilfswaren",
-        dm_group_production = "verarbeitete Waren",
-        dm_group_preserved = "Konserven",
-        dm_group_packaged = "verpackte Waren",
-        dm_group_construction = "Baustoffe",
-        dm_group_woodProduct = "Holzprodukte"
+        dm_group_animalProduct = "Tierprodukte",
+        dm_group_livestock = "Nutztiere",
+        dm_group_processedGoods = "verarbeitete Waren",
+        dm_group_buildingMaterial = "Baustoffe & Holz"
     },
     fr = {
         dm_notice_title = "Marché Dynamique",
         dm_notice_stable = "Les groupes de produits restent stables.",
-        dm_group_cereal = "céréales",
-        dm_group_oilseed = "oléagineux",
-        dm_group_rootcrop = "racines",
-        dm_group_vegetable = "légumes",
+        dm_group_cropFarming = "cultures",
         dm_group_forage = "fourrages",
-        dm_group_fiber = "fibres",
-        dm_group_animal = "produits animaux",
-        dm_group_animalMarket = "animaux",
-        dm_group_auxiliaryProduct = "marchandises auxiliaires",
-        dm_group_production = "produits transformés",
-        dm_group_preserved = "conserves",
-        dm_group_packaged = "marchandises emballées",
-        dm_group_construction = "matériaux de construction",
-        dm_group_woodProduct = "produits du bois"
+        dm_group_animalProduct = "produits animaux",
+        dm_group_livestock = "bétail",
+        dm_group_processedGoods = "produits transformés",
+        dm_group_buildingMaterial = "matériaux de construction"
     }
 }
 
 DynamicMarket.GROUPS = {
-    cereal = {
+    -- Ackerfrüchte: Getreide, Ölfrüchte, Hackfrüchte, Gemüse, Faserpflanzen
+    cropFarming = {
         WHEAT = true, WINTERWHEAT = true, BARLEY = true, WINTERBARLEY = true, OAT = true,
         SORGHUM = true, RYE = true, TRITICALE = true, SPELT = true, RICE = true, RICELONGGRAIN = true,
         MAIZE = true, CORN = true,
         WHEAT_CUT = true, BARLEY_CUT = true, OAT_CUT = true, RYE_CUT = true, TRITICALE_CUT = true,
-        SPELT_CUT = true
-    },
-    oilseed = {
+        SPELT_CUT = true,
         CANOLA = true, SUNFLOWER = true, SOYBEAN = true, OLIVE = true, LINSEED = true, FLAX = true,
-        POPPY = true, SOYBEAN_CUT = true
-    },
-    rootcrop = {
+        POPPY = true, SOYBEAN_CUT = true,
         POTATO = true, SUGARBEET = true, SUGARBEET_CUT = true, BEETROOT = true, CARROT = true,
-        PARSNIP = true, ONION = true, TURNIP = true, SUGARCANE = true
-    },
-    vegetable = {
+        PARSNIP = true, ONION = true, TURNIP = true, SUGARCANE = true,
         GREENBEAN = true, PEA = true, SPINACH = true, GRAPE = true, LETTUCE = true, TOMATO = true,
         STRAWBERRY = true, APPLE = true, CABBAGE = true, CUCUMBER = true, PUMPKIN = true,
-        CHILLI = true, GARLIC = true, ENOKI = true, OYSTER = true, MUSTARD = true, SPRING_ONION = true
+        CHILLI = true, GARLIC = true, ENOKI = true, OYSTER = true, MUSTARD = true, SPRING_ONION = true,
+        COTTON = true, ROUNDBALE_COTTON = true, SQUAREBALE_COTTON = true
     },
+    -- Grundfutter
     forage = {
         GRASS = true, GRASS_WINDROW = true, DRYGRASS = true, DRYGRASS_WINDROW = true, HAY = true,
-        STRAW = true, FORAGE = true, CHAFF = true, SILAGE = true, WOODCHIPS = true, POPLAR = true,
+        STRAW = true, FORAGE = true, CHAFF = true, SILAGE = true, POPLAR = true,
         CLOVER = true, CLOVER_WINDROW = true, DRYCLOVER = true, DRYCLOVER_WINDROW = true,
         ALFALFA = true, ALFALFA_WINDROW = true, DRYALFALFA = true, DRYALFALFA_WINDROW = true,
         LUCERNE = true, FIELDGRASS = true, GREENRYE = true, VETCHRYE = true, SILAGEMAIZE = true,
@@ -200,56 +151,48 @@ DynamicMarket.GROUPS = {
         ROUNDBALE = true, ROUNDBALE_DRYGRASS = true, ROUNDBALE_GRASS = true,
         SQUAREBALE = true, SQUAREBALE_DRYGRASS = true, SQUAREBALE_GRASS = true
     },
-    fiber = {
-        COTTON = true, ROUNDBALE_COTTON = true, SQUAREBALE_COTTON = true
-    },
-    animal = {
+    -- Tierprodukte
+    animalProduct = {
         MILK = true, GOATMILK = true, BUFFALOMILK = true, EGG = true, WOOL = true, HONEY = true
     },
-    animalMarket = {
+    -- Nutztiere (Kaufvieh)
+    livestock = {
         COW_ANGUS = true, COW_HIGHLAND_CATTLE = true, COW_HOLSTEIN = true, COW_LIMOUSIN = true,
         COW_SWISS_BROWN = true, PIG_BERKSHIRE = true, PIG_BLACK_PIED = true, PIG_LANDRACE = true,
         SHEEP_BLACK_WELSH = true, SHEEP_LANDRACE = true, SHEEP_STEINSCHAF = true, SHEEP_SWISS_MOUNTAIN = true
     },
-    auxiliaryProduct = {
-        BARREL = true, BUCKET = true, BATHTUB = true, EMPTYPALLET = true, EMPTYPALLETBOX = true,
-        EMPTYBARREL = true, EMPTYBUCKET = true, EMPTYBOX = true, EMPTYPACKAGE = true
-    },
-    production = {
+    -- Verarbeitete Waren: Produktion, Konserven, verpackte Waren, Hilfswaren
+    processedGoods = {
         FLOUR = true, RICEFLOUR = true, BREAD = true, CAKE = true, BUTTER = true, CHEESE = true, GOATCHEESE = true,
         CHOCOLATE = true, SUGAR = true, CEREAL = true, SUNFLOWER_OIL = true, CANOLA_OIL = true,
         OLIVE_OIL = true, RICE_OIL = true, RAISINS = true, GRAPEJUICE = true, FABRIC = true,
         CLOTHES = true, PAPER = true, PAPERROLL = true, ROPE = true, PELLETS = true, COMPOST = true,
         COMPOSTRAW = true, COMPOST_BOXED = true, QUALITYCOMPOST = true, MOLASSES = true,
         BUFFALOMOZZARELLA = true, BUFFALOMILK_BOTTLED = true, GOATMILK_BOTTLED = true,
-        MILK_BOTTLED = true, CARTONROLL = true
-    },
-    preserved = {
+        MILK_BOTTLED = true, CARTONROLL = true,
         POTATOCHIPS = true, RICEROLLS = true, FERMENTEDNAPACABBAGE = true, NOODLESOUP = true,
         PRESERVEDCARROTS = true, PRESERVEDPARSNIP = true, PRESERVEDBEETROOT = true,
         SOUPCANSMIXED = true, SOUPCANSCARROTS = true, SOUPCANSPARSNIP = true, SOUPCANSBEETROOT = true,
-        SOUPCANSPOTATO = true, CANNED_PEAS = true, JARRED_GREENBEAN = true, SPINACH_BAGS = true
+        SOUPCANSPOTATO = true, CANNED_PEAS = true, JARRED_GREENBEAN = true, SPINACH_BAGS = true,
+        RICE_BAGS = true, RICE_BOXES = true, BAGGED = true, BOXED = true, PALLET = true,
+        BARREL = true, BUCKET = true, BATHTUB = true, EMPTYPALLET = true, EMPTYPALLETBOX = true,
+        EMPTYBARREL = true, EMPTYBUCKET = true, EMPTYBOX = true, EMPTYPACKAGE = true
     },
-    packaged = {
-        RICE_BAGS = true, RICE_BOXES = true, BAGGED = true, BOXED = true, PALLET = true
-    },
-    construction = {
+    -- Baustoffe & Holz
+    buildingMaterial = {
         CEMENT = true, CEMENTBRICKS = true, CONCRETE = true, STONE = true, GRAVEL = true, SAND = true,
-        ROOFPLATES = true, PREFABWALL = true
-    },
-    woodProduct = {
+        ROOFPLATES = true, PREFABWALL = true,
         WOOD = true, WOODCHIPS = true, PLANKS = true, FURNITURE = true, BOARDS = true, TIMBER = true,
         WOODBEAM = true, TREE = true, ROUNDBALE_WOOD = true, SQUAREBALE_WOOD = true
     }
 }
 
 DynamicMarket.GROUP_ORDER = {
-    "cereal", "oilseed", "rootcrop", "vegetable", "forage", "fiber", "animal",
-    "animalMarket", "auxiliaryProduct", "preserved", "packaged", "construction", "woodProduct", "production"
+    "cropFarming", "forage", "animalProduct", "livestock", "processedGoods", "buildingMaterial"
 }
 
 DynamicMarket.PATTERN_GROUP_ORDER = {
-    "auxiliaryProduct", "preserved", "packaged", "construction", "woodProduct", "production"
+    "processedGoods", "buildingMaterial"
 }
 
 DynamicMarket.EXCLUDED_EXACT = {
@@ -268,13 +211,12 @@ DynamicMarket.EXCLUDED_PATTERNS = {
 }
 
 DynamicMarket.GROUP_PATTERNS = {
-    auxiliaryProduct = {"EMPTY", "AUXILIARY"},
-    preserved = {"CANNED", "CAN", "SOUP", "PRESERVED", "JARRED", "FERMENTED", "CHIPS", "ROLLS"},
-    packaged = {"BAG", "BOX", "PACKED", "PACKAGE", "PALLET"},
-    construction = {"CEMENT", "CONCRETE", "BRICK", "ROOF", "GRAVEL", "SAND", "BATHTUB"},
-    woodProduct = {"PLANK", "FURNITURE", "BOARD", "TIMBER"},
-    production = {"FLOUR", "BREAD", "CAKE", "BUTTER", "CHEESE", "OIL", "JUICE", "FABRIC", "CLOTHES",
-        "PAPER", "PELLET", "COMPOST", "MOLASSES", "ROPE"}
+    processedGoods = {"EMPTY", "AUXILIARY", "CANNED", "CAN", "SOUP", "PRESERVED", "JARRED", "FERMENTED",
+        "CHIPS", "ROLLS", "BAG", "BOX", "PACKED", "PACKAGE", "PALLET", "FLOUR", "BREAD", "CAKE",
+        "BUTTER", "CHEESE", "OIL", "JUICE", "FABRIC", "CLOTHES", "PAPER", "PELLET", "COMPOST",
+        "MOLASSES", "ROPE"},
+    buildingMaterial = {"CEMENT", "CONCRETE", "BRICK", "ROOF", "GRAVEL", "SAND", "BATHTUB",
+        "PLANK", "FURNITURE", "BOARD", "TIMBER"}
 }
 
 DynamicMarket.__lastFillTypeCount = -1
@@ -541,6 +483,24 @@ function DynamicMarket:getMissionYear()
     return 1
 end
 
+function DynamicMarket:getMissionDayInPeriod()
+    local mission = g_currentMission
+    if mission ~= nil and mission.environment ~= nil then
+        local day = mission.environment.currentDayInPeriod or mission.environment.currentDay
+        if day ~= nil then
+            day = tonumber(day)
+            if day ~= nil then
+                return math.max(1, math.floor(day))
+            end
+        end
+    end
+    return 1
+end
+
+function DynamicMarket:isDailyRecalculationEnabled()
+    return self.dailyRecalcMode == self.DAILY_RECALC_ENABLED
+end
+
 function DynamicMarket:stableHash(text)
     local hash = 5381
     text = tostring(text or "")
@@ -559,22 +519,27 @@ function DynamicMarket:noiseSigned(seedText)
     return (self:noise01(seedText) * 2) - 1
 end
 
-function DynamicMarket:getMarketKeyForPeriod(period, year, mapName)
+function DynamicMarket:getMarketKeyForPeriod(period, year, mapName, day)
     period = tonumber(period) or 1
     year = tonumber(year) or 1
     mapName = tostring(mapName or "unknownMap")
-    return mapName .. ":" .. tostring(year) .. ":" .. tostring(period)
+    local key = mapName .. ":" .. tostring(year) .. ":" .. tostring(period)
+    if self:isDailyRecalculationEnabled() then
+        key = key .. ":" .. tostring(tonumber(day) or 1)
+    end
+    return key
 end
 
 function DynamicMarket:getMarketKey()
     local period = self:getMissionPeriod()
     local year = self:getMissionYear()
+    local day = self:getMissionDayInPeriod()
     local mapName = "unknownMap"
     if g_currentMission ~= nil and g_currentMission.missionInfo ~= nil then
         mapName = g_currentMission.missionInfo.mapId or g_currentMission.missionInfo.mapTitle or g_currentMission.missionInfo.mapName or mapName
     end
     mapName = tostring(mapName)
-    return self:getMarketKeyForPeriod(period, year, mapName), period, year, mapName
+    return self:getMarketKeyForPeriod(period, year, mapName, day), period, year, mapName
 end
 
 function DynamicMarket:clampMarketFactor(value)
@@ -591,21 +556,20 @@ end
 function DynamicMarket:getSeasonalSupplyPressure(groupName, period)
     period = tonumber(period) or 1
     local profiles = {
-        cereal =       {[1]=-0.40, [2]=-0.30, [3]=-0.15, [4]=0.05, [5]=0.35, [6]=0.80, [7]=0.80, [8]=0.45, [9]=0.15, [10]=-0.10, [11]=-0.25, [12]=-0.35},
-        oilseed =      {[1]=-0.25, [2]=-0.20, [3]=-0.10, [4]=0.05, [5]=0.20, [6]=0.55, [7]=0.65, [8]=0.35, [9]=0.10, [10]=-0.05, [11]=-0.15, [12]=-0.25},
-        rootcrop =     {[1]=-0.20, [2]=-0.20, [3]=-0.10, [4]=0.00, [5]=0.10, [6]=0.20, [7]=0.30, [8]=0.60, [9]=0.75, [10]=0.45, [11]=0.10, [12]=-0.10},
-        vegetable =    {[1]=-0.15, [2]=-0.10, [3]=0.00, [4]=0.20, [5]=0.45, [6]=0.55, [7]=0.60, [8]=0.45, [9]=0.20, [10]=0.00, [11]=-0.10, [12]=-0.15},
-        forage =       {[1]=-0.30, [2]=-0.15, [3]=0.15, [4]=0.45, [5]=0.60, [6]=0.50, [7]=0.35, [8]=0.10, [9]=-0.05, [10]=-0.20, [11]=-0.35, [12]=-0.40},
-        fiber =        {[1]=-0.15, [2]=-0.10, [3]=0.00, [4]=0.10, [5]=0.20, [6]=0.35, [7]=0.45, [8]=0.30, [9]=0.10, [10]=-0.05, [11]=-0.10, [12]=-0.15},
+        cereal =       {[1]=-0.30, [2]=-0.20, [3]=-0.10, [4]=0.05, [5]=0.25, [6]=0.50, [7]=0.50, [8]=0.30, [9]=0.10, [10]=-0.05, [11]=-0.15, [12]=-0.25},
+        oilseed =      {[1]=-0.20, [2]=-0.15, [3]=-0.08, [4]=0.05, [5]=0.18, [6]=0.40, [7]=0.45, [8]=0.25, [9]=0.08, [10]=-0.04, [11]=-0.12, [12]=-0.20},
+        rootcrop =     {[1]=-0.18, [2]=-0.18, [3]=-0.08, [4]=0.00, [5]=0.08, [6]=0.15, [7]=0.22, [8]=0.45, [9]=0.55, [10]=0.35, [11]=0.08, [12]=-0.08},
+        vegetable =    {[1]=-0.12, [2]=-0.08, [3]=0.00, [4]=0.15, [5]=0.35, [6]=0.42, [7]=0.45, [8]=0.35, [9]=0.15, [10]=0.00, [11]=-0.08, [12]=-0.12},
+        forage =       {[1]=-0.22, [2]=-0.12, [3]=0.10, [4]=0.32, [5]=0.42, [6]=0.38, [7]=0.28, [8]=0.08, [9]=-0.04, [10]=-0.15, [11]=-0.28, [12]=-0.32},
+        fiber =        {[1]=-0.12, [2]=-0.08, [3]=0.00, [4]=0.08, [5]=0.15, [6]=0.25, [7]=0.32, [8]=0.22, [9]=0.08, [10]=-0.04, [11]=-0.08, [12]=-0.12},
         animal =       {[1]=0.00, [2]=0.00, [3]=0.00, [4]=0.05, [5]=0.05, [6]=0.05, [7]=0.00, [8]=0.00, [9]=-0.05, [10]=-0.05, [11]=0.00, [12]=0.00},
         animalMarket = {[1]=0.00, [2]=0.00, [3]=0.05, [4]=0.05, [5]=0.05, [6]=0.00, [7]=0.00, [8]=-0.05, [9]=-0.05, [10]=0.00, [11]=0.00, [12]=0.00},
         production =   {[1]=0.00, [2]=0.00, [3]=0.00, [4]=0.05, [5]=0.05, [6]=0.05, [7]=0.00, [8]=0.00, [9]=0.00, [10]=0.05, [11]=0.05, [12]=0.00},
-        preserved =    {[1]=-0.10, [2]=-0.10, [3]=-0.05, [4]=0.00, [5]=0.10, [6]=0.20, [7]=0.30, [8]=0.25, [9]=0.10, [10]=0.00, [11]=-0.05, [12]=-0.10},
+        preserved =    {[1]=-0.08, [2]=-0.08, [3]=-0.04, [4]=0.00, [5]=0.08, [6]=0.15, [7]=0.22, [8]=0.18, [9]=0.08, [10]=0.00, [11]=-0.04, [12]=-0.08},
         packaged =     {[1]=0.00, [2]=0.00, [3]=0.00, [4]=0.05, [5]=0.05, [6]=0.05, [7]=0.00, [8]=0.00, [9]=0.00, [10]=0.05, [11]=0.05, [12]=0.00},
-        construction = {[1]=-0.05, [2]=-0.05, [3]=0.05, [4]=0.15, [5]=0.20, [6]=0.15, [7]=0.10, [8]=0.10, [9]=0.05, [10]=0.00, [11]=-0.05, [12]=-0.05},
-        woodProduct =  {[1]=-0.05, [2]=-0.05, [3]=0.05, [4]=0.15, [5]=0.20, [6]=0.15, [7]=0.10, [8]=0.05, [9]=0.00, [10]=0.00, [11]=-0.05, [12]=-0.05}
+        construction = {[1]=-0.04, [2]=-0.04, [3]=0.04, [4]=0.12, [5]=0.15, [6]=0.12, [7]=0.08, [8]=0.08, [9]=0.04, [10]=0.00, [11]=-0.04, [12]=-0.04},
+        woodProduct =  {[1]=-0.04, [2]=-0.04, [3]=0.04, [4]=0.12, [5]=0.15, [6]=0.12, [7]=0.08, [8]=0.04, [9]=0.00, [10]=0.00, [11]=-0.04, [12]=-0.04}
     }
-
     local profile = profiles[groupName]
     if profile == nil then
         return 0
@@ -623,7 +587,7 @@ function DynamicMarket:buildMarketFactorForGroup(groupName, period, year, mapNam
     year = tonumber(year) or 1
     mapName = tostring(mapName or "unknownMap")
 
-    local key = self:getMarketKeyForPeriod(period, year, mapName)
+    local key = self:getMarketKeyForPeriod(period, year, mapName, self:getMissionDayInPeriod())
     local volatility = tonumber(cfg.volatility) or 0.05
     local weather = self:noiseSigned(key .. ":weather:" .. groupName)
     local randomSupplyPressure = self:noiseSigned(key .. ":regionalSupply:" .. groupName)
@@ -968,7 +932,7 @@ function DynamicMarket:buildMarketFactors(stats)
     if self.__marketKey == key and self.__marketFactors ~= nil then
         return self.__marketFactors, key, period, year, mapName
     end
-
+    
     local factors = {}
     local marketParts = {}
     for groupName, _ in pairs(self.MARKET_GROUPS) do
@@ -976,43 +940,43 @@ function DynamicMarket:buildMarketFactors(stats)
         factors[groupName] = data
         table.insert(marketParts, string.format("%s=%+.1f%%", groupName, (factor - 1) * 100))
     end
-
     table.sort(marketParts)
     self.__marketFactors = factors
     self.__marketKey = key
 
-    local strongestPositiveName = nil
-    local strongestNegativeName = nil
-    local strongestPositiveValue = -999
-    local strongestNegativeValue = 999
+    local positiveGroups = {}
+    local negativeGroups = {}
+    
     for groupName, data in pairs(factors) do
         local value = tonumber(data.factor) or 1
-        if value > strongestPositiveValue then
-            strongestPositiveValue = value
-            strongestPositiveName = groupName
-        end
-        if value < strongestNegativeValue then
-            strongestNegativeValue = value
-            strongestNegativeName = groupName
+        if value > 1.005 then
+            table.insert(positiveGroups, {name = groupName, factor = value})
+        elseif value < 0.995 then
+            table.insert(negativeGroups, {name = groupName, factor = value})
         end
     end
-
+    
+    table.sort(positiveGroups, function(a, b) return a.factor > b.factor end)
+    table.sort(negativeGroups, function(a, b) return a.factor < b.factor end)
+    
     self.__marketDriverReport = {
-        strongestPositiveName = strongestPositiveName,
-        strongestNegativeName = strongestNegativeName,
-        strongestPositiveFactor = strongestPositiveValue,
-        strongestNegativeFactor = strongestNegativeValue
+        positiveGroups = positiveGroups,
+        negativeGroups = negativeGroups,
+        strongestPositiveName = #positiveGroups > 0 and positiveGroups[1].name or nil,
+        strongestNegativeName = #negativeGroups > 0 and negativeGroups[1].name or nil,
+        strongestPositiveFactor = #positiveGroups > 0 and positiveGroups[1].factor or 1,
+        strongestNegativeFactor = #negativeGroups > 0 and negativeGroups[1].factor or 1
     }
-
+    
     if self.DIAGNOSTICS.marketModel then
-        Logging.info("%s marketModel version=%s type=regionalSupplyDemand seasonalSupply=yes storageRead=no yieldChange=no priceOnly=yes strongestUp=%s strongestDown=%s",
+        Logging.info("%s marketModel version=%s type=regionalSupplyDemand seasonalSupply=yes storageRead=no yieldChange=no priceOnly=yes positiveCount=%d negativeCount=%d",
             self.LOG_PREFIX,
             self.VERSION,
-            self:formatMarketDriverShort(strongestPositiveName, factors[strongestPositiveName]),
-            self:formatMarketDriverShort(strongestNegativeName, factors[strongestNegativeName])
+            #positiveGroups,
+            #negativeGroups
         )
     end
-
+    
     if self.DIAGNOSTICS.market then
         Logging.info("%s market version=%s period=%d year=%d map=%s mode=stationPriceTables saleHook=priceTable model=regionalSupplyDemand factors=%s",
             self.LOG_PREFIX,
@@ -1022,15 +986,8 @@ function DynamicMarket:buildMarketFactors(stats)
             tostring(mapName),
             table.concat(marketParts, ",")
         )
-
-        Logging.info("%s marketDrivers version=%s strongestPositive=%s strongestNegative=%s",
-            self.LOG_PREFIX,
-            self.VERSION,
-            self:formatMarketDriver(strongestPositiveName, factors[strongestPositiveName]),
-            self:formatMarketDriver(strongestNegativeName, factors[strongestNegativeName])
-        )
     end
-
+    
     return factors, key, period, year, mapName
 end
 
@@ -1325,20 +1282,12 @@ end
 
 function DynamicMarket:getMarketGroupDisplayName(groupName)
     local fallbacks = {
-        cereal = "Getreide",
-        oilseed = "Ölfrüchte",
-        rootcrop = "Hackfrüchte",
-        vegetable = "Gemüse",
+        cropFarming = "Ackerfrüchte",
         forage = "Futterpflanzen",
-        fiber = "Fasern",
-        animal = "Tierprodukte",
-        animalMarket = "Tiere",
-        auxiliaryProduct = "Hilfswaren",
-        production = "verarbeitete Waren",
-        preserved = "Konserven",
-        packaged = "verpackte Waren",
-        construction = "Baustoffe",
-        woodProduct = "Holzprodukte"
+        animalProduct = "Tierprodukte",
+        livestock = "Nutztiere",
+        processedGoods = "verarbeitete Waren",
+        buildingMaterial = "Baustoffe & Holz"
     }
 
     return self:getLocalizedText("dm_group_" .. tostring(groupName or "unknown"), fallbacks[groupName] or tostring(groupName or "Markt"))
@@ -2067,6 +2016,43 @@ function DynamicMarket:getPriceBaseMode()
         mode = self.PRICE_BASE_YEAR_AVERAGE
     end
     return mode
+end
+
+function DynamicMarket:getDailyRecalcMode()
+    local mode = tonumber(self.dailyRecalcMode) or self.DAILY_RECALC_DISABLED
+    if mode ~= self.DAILY_RECALC_DISABLED and mode ~= self.DAILY_RECALC_ENABLED then
+        mode = self.DAILY_RECALC_DISABLED
+    end
+    return mode
+end
+
+function DynamicMarket:setDailyRecalcMode(mode, passName)
+    mode = tonumber(mode) or self.DAILY_RECALC_DISABLED
+    if mode ~= self.DAILY_RECALC_DISABLED and mode ~= self.DAILY_RECALC_ENABLED then
+        mode = self.DAILY_RECALC_DISABLED
+    end
+
+    local changed = self.dailyRecalcMode ~= mode
+    self.dailyRecalcMode = mode
+
+    if changed then
+        self.__finalApplied = false
+        self.__stableMs = 0
+        self.__armedLogged = false
+        self.__periodCheckMs = 0
+        self.__marketKey = nil
+        self.__marketFactors = {}
+        self.__lastSalesMarketKey = nil
+        self.__lastObservedMarketKey = nil
+        self.__lastSaleMarketReport = nil
+
+        if g_fillTypeManager ~= nil and self:getSellingStationCount() > 0 then
+            self:applyAll(g_fillTypeManager, passName or "dailyRecalcSetting")
+            if self.__lastSaleMarketReport ~= nil and self.__lastSaleMarketReport.success == true then
+                self.__finalApplied = true
+            end
+        end
+    end
 end
 
 function DynamicMarket:setPriceBaseMode(mode, passName)
