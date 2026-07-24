@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="110">
     <author>Nalathan</author>
-    <version>1.1.0.0</version>
+    <version>1.1.1.0</version>
     <title>
         <en>Dynamic Market</en>
         <de>Dynamischer Markt</de>
@@ -12,7 +12,7 @@
 
 Optionally, a yearly average mode can be enabled. In this mode the Giants seasonal price curve is disabled and replaced by a stable yearly mean value. This yearly average is calculated based on the usual Giants pricing logic, including difficulty settings and selling station influence. It provides a consistent reference over the whole year and allows players to decide the best selling month without relying on predictable seasonal peaks.
 
-Each product category (grains, oilseeds, vegetables, forage crops, wood, animal products and processed goods) follows its own price curve. This prevents uniform price changes and creates more realistic market behavior across different goods.
+Each product category (crop farming, forage crops, animal products, livestock, processed goods and building materials) follows its own price curve. This prevents uniform price changes and creates more realistic market behavior across different goods.
 
 A dedicated market screen displays the base game price, the dynamically adjusted selling price or yearly average value depending on mode, the percentage difference, the selling location and the best selling month from the base game. Search and storage filter allow fast navigation through available products.
 
@@ -32,6 +32,12 @@ Features:
 
 Feedback and issues on GitHub: https://github.com/Nalathan01
 
+Changelog 1.1.1.0:
+- Fixed: market prices were recalculated every 5 seconds even when the period had not changed
+- Fixed: "Normal" price-base mode now keeps the GIANTS seasonal curve instead of flattening it
+- Fixed: group names and market notices now use the shipped translations for all languages
+- Fixed: crop farming and other merged categories had lost their seasonal price influence since the 1.1.0.0 category rework
+
 Changelog 1.1.0.0:
 - New option: daily market recalculation, for savegames with multiple days per month
 - Product groups simplified from 14 to 6 more realistic categories, for more frequent market swings
@@ -47,7 +53,7 @@ Changelog 1.0.1.0:
 
 Optional kann ein Jahresmittelwert-Modus aktiviert werden. In diesem Modus wird die Giants-Saisonpreiskurve deaktiviert und durch einen stabilen Jahresmittelwert ersetzt. Dieser Jahresmittelwert basiert auf der üblichen Giants-Preislogik inklusive Schwierigkeitsgrad und Einfluss der Verkaufsstelle. Er dient als konstante Orientierung über das gesamte Jahr und ermöglicht es dem Spieler, den besten Verkaufszeitpunkt selbst zu bestimmen, ohne sich auf vorhersehbare saisonale Spitzen verlassen zu müssen.
 
-Getreide, Ölfrüchte, Gemüse, Futterpflanzen, Holz, Tierprodukte und verarbeitete Waren folgen jeweils eigenen Preisverläufen. Dadurch entstehen unterschiedliche Marktreaktionen statt einheitlicher Schwankungen über alle Produkte hinweg.
+Ackerfrüchte, Futterpflanzen, Tierprodukte, Nutztiere, verarbeitete Waren und Baustoffe folgen jeweils eigenen Preisverläufen. Dadurch entstehen unterschiedliche Marktreaktionen statt einheitlicher Schwankungen über alle Produkte hinweg.
 
 Eine eigene Marktseite zeigt den Grundspielpreis, den dynamisch angepassten Verkaufspreis oder den Jahresmittelwert je nach Modus, die prozentuale Abweichung, die Verkaufsstelle sowie den besten Verkaufsmonat aus dem Grundspiel. Suche und Lagerfilter ermöglichen eine schnelle Navigation durch alle Produkte.
 
@@ -67,6 +73,12 @@ Funktionen:
 
 Feedback und Fehlerberichte auf GitHub: https://github.com/Nalathan01
 
+Changelog 1.1.1.0:
+- Behoben: Marktpreise wurden alle 5 Sekunden neu berechnet, auch wenn sich der Zeitraum nicht geändert hat
+- Behoben: Der Preismodus "Normal" behält nun die Giants-Saisonkurve, statt sie zu glätten
+- Behoben: Warengruppen-Namen und Markt-Hinweise nutzen jetzt die mitgelieferten Übersetzungen aller Sprachen
+- Behoben: Ackerfrüchte und andere zusammengelegte Warengruppen hatten seit der Kategorien-Überarbeitung in 1.1.0.0 keinen saisonalen Preiseinfluss mehr
+
 Changelog 1.1.0.0:
 - Neue Option: tägliche Marktneuberechnung, für Savegames mit mehreren Tagen pro Monat
 - Warengruppen von 14 auf 6 realistischere Kategorien vereinfacht, für häufigere Marktschwankungen
@@ -82,7 +94,7 @@ Changelog 1.0.1.0:
 
 Un mode de moyenne annuelle peut être activé en option. Dans ce mode, la courbe saisonnière de Giants est désactivée et remplacée par une valeur moyenne annuelle stable. Cette moyenne annuelle est calculée à partir de la logique de prix de Giants, incluant le niveau de difficulté et l’influence du point de vente. Elle fournit une référence constante sur toute l’année et permet au joueur de déterminer le meilleur moment de vente sans dépendre de pics saisonniers prévisibles.
 
-Les céréales, oléagineux, légumes, cultures fourragères, bois, produits animaux et produits transformés suivent chacun des courbes de prix distinctes. Cela évite des fluctuations uniformes et crée un comportement de marché plus réaliste.
+Les cultures, les fourrages, les produits animaux, le bétail, les produits transformés et les matériaux de construction suivent chacun des courbes de prix distinctes. Cela évite des fluctuations uniformes et crée un comportement de marché plus réaliste.
 
 Une page de marché dédiée affiche le prix de base du jeu, le prix ajusté dynamiquement ou la valeur moyenne annuelle selon le mode, la variation en pourcentage, le point de vente ainsi que le meilleur mois de vente du jeu de base. Une fonction de recherche et un filtre de stockage facilitent la navigation.
 
@@ -101,6 +113,12 @@ Fonctions :
 - calcul des prix côté serveur en multijoueur
 
 Retours et signalement de problèmes sur GitHub: https://github.com/Nalathan01
+
+Changelog 1.1.1.0:
+- Corrigé : les prix du marché étaient recalculés toutes les 5 secondes même lorsque la période n'avait pas changé
+- Corrigé : le mode de base de prix « Normal » conserve désormais la courbe saisonnière de Giants au lieu de l'aplatir
+- Corrigé : les noms de groupes et les notifications de marché utilisent désormais les traductions fournies pour toutes les langues
+- Corrigé : les cultures et les autres groupes fusionnés avaient perdu leur influence saisonnière sur les prix depuis la refonte des catégories en 1.1.0.0
 
 Changelog 1.1.0.0:
 - Nouvelle option: recalcul quotidien du marché, pour les parties avec plusieurs jours par mois

@@ -3,7 +3,7 @@ DynamicMarket = {}
 DynamicMarket.MOD_NAME = g_currentModName or "FS25_DynamicMarket"
 DynamicMarket.MOD_DIR = g_currentModDirectory or ""
 DynamicMarket.LOG_PREFIX = "[DynamicMarket]"
-DynamicMarket.VERSION = "1.1.0.0"
+DynamicMarket.VERSION = "1.1.1.0"
 
 DynamicMarket.APPLY_CURVES = true
 
@@ -25,7 +25,6 @@ DynamicMarket.dailyRecalcMode = DynamicMarket.DAILY_RECALC_DISABLED
 DynamicMarket.MARKET_NOTICE_MIN_MOVEMENT = 0.015
 
 DynamicMarket.FILLTYPE_GROUP_OVERRIDES = {
-    -- MY_CUSTOM_FILLTYPE = "production"
 }
 
 DynamicMarket.PERIOD_CHECK_INTERVAL_MS = 5000
@@ -123,7 +122,6 @@ DynamicMarket.NOTICE_TEXTS = {
 }
 
 DynamicMarket.GROUPS = {
-    -- Ackerfrüchte: Getreide, Ölfrüchte, Hackfrüchte, Gemüse, Faserpflanzen
     cropFarming = {
         WHEAT = true, WINTERWHEAT = true, BARLEY = true, WINTERBARLEY = true, OAT = true,
         SORGHUM = true, RYE = true, TRITICALE = true, SPELT = true, RICE = true, RICELONGGRAIN = true,
@@ -139,7 +137,6 @@ DynamicMarket.GROUPS = {
         CHILLI = true, GARLIC = true, ENOKI = true, OYSTER = true, MUSTARD = true, SPRING_ONION = true,
         COTTON = true, ROUNDBALE_COTTON = true, SQUAREBALE_COTTON = true
     },
-    -- Grundfutter
     forage = {
         GRASS = true, GRASS_WINDROW = true, DRYGRASS = true, DRYGRASS_WINDROW = true, HAY = true,
         STRAW = true, FORAGE = true, CHAFF = true, SILAGE = true, POPLAR = true,
@@ -151,17 +148,14 @@ DynamicMarket.GROUPS = {
         ROUNDBALE = true, ROUNDBALE_DRYGRASS = true, ROUNDBALE_GRASS = true,
         SQUAREBALE = true, SQUAREBALE_DRYGRASS = true, SQUAREBALE_GRASS = true
     },
-    -- Tierprodukte
     animalProduct = {
         MILK = true, GOATMILK = true, BUFFALOMILK = true, EGG = true, WOOL = true, HONEY = true
     },
-    -- Nutztiere (Kaufvieh)
     livestock = {
         COW_ANGUS = true, COW_HIGHLAND_CATTLE = true, COW_HOLSTEIN = true, COW_LIMOUSIN = true,
         COW_SWISS_BROWN = true, PIG_BERKSHIRE = true, PIG_BLACK_PIED = true, PIG_LANDRACE = true,
         SHEEP_BLACK_WELSH = true, SHEEP_LANDRACE = true, SHEEP_STEINSCHAF = true, SHEEP_SWISS_MOUNTAIN = true
     },
-    -- Verarbeitete Waren: Produktion, Konserven, verpackte Waren, Hilfswaren
     processedGoods = {
         FLOUR = true, RICEFLOUR = true, BREAD = true, CAKE = true, BUTTER = true, CHEESE = true, GOATCHEESE = true,
         CHOCOLATE = true, SUGAR = true, CEREAL = true, SUNFLOWER_OIL = true, CANOLA_OIL = true,
@@ -178,7 +172,6 @@ DynamicMarket.GROUPS = {
         BARREL = true, BUCKET = true, BATHTUB = true, EMPTYPALLET = true, EMPTYPALLETBOX = true,
         EMPTYBARREL = true, EMPTYBUCKET = true, EMPTYBOX = true, EMPTYPACKAGE = true
     },
-    -- Baustoffe & Holz
     buildingMaterial = {
         CEMENT = true, CEMENTBRICKS = true, CONCRETE = true, STONE = true, GRAVEL = true, SAND = true,
         ROOFPLATES = true, PREFABWALL = true,
@@ -556,19 +549,12 @@ end
 function DynamicMarket:getSeasonalSupplyPressure(groupName, period)
     period = tonumber(period) or 1
     local profiles = {
-        cereal =       {[1]=-0.30, [2]=-0.20, [3]=-0.10, [4]=0.05, [5]=0.25, [6]=0.50, [7]=0.50, [8]=0.30, [9]=0.10, [10]=-0.05, [11]=-0.15, [12]=-0.25},
-        oilseed =      {[1]=-0.20, [2]=-0.15, [3]=-0.08, [4]=0.05, [5]=0.18, [6]=0.40, [7]=0.45, [8]=0.25, [9]=0.08, [10]=-0.04, [11]=-0.12, [12]=-0.20},
-        rootcrop =     {[1]=-0.18, [2]=-0.18, [3]=-0.08, [4]=0.00, [5]=0.08, [6]=0.15, [7]=0.22, [8]=0.45, [9]=0.55, [10]=0.35, [11]=0.08, [12]=-0.08},
-        vegetable =    {[1]=-0.12, [2]=-0.08, [3]=0.00, [4]=0.15, [5]=0.35, [6]=0.42, [7]=0.45, [8]=0.35, [9]=0.15, [10]=0.00, [11]=-0.08, [12]=-0.12},
-        forage =       {[1]=-0.22, [2]=-0.12, [3]=0.10, [4]=0.32, [5]=0.42, [6]=0.38, [7]=0.28, [8]=0.08, [9]=-0.04, [10]=-0.15, [11]=-0.28, [12]=-0.32},
-        fiber =        {[1]=-0.12, [2]=-0.08, [3]=0.00, [4]=0.08, [5]=0.15, [6]=0.25, [7]=0.32, [8]=0.22, [9]=0.08, [10]=-0.04, [11]=-0.08, [12]=-0.12},
-        animal =       {[1]=0.00, [2]=0.00, [3]=0.00, [4]=0.05, [5]=0.05, [6]=0.05, [7]=0.00, [8]=0.00, [9]=-0.05, [10]=-0.05, [11]=0.00, [12]=0.00},
-        animalMarket = {[1]=0.00, [2]=0.00, [3]=0.05, [4]=0.05, [5]=0.05, [6]=0.00, [7]=0.00, [8]=-0.05, [9]=-0.05, [10]=0.00, [11]=0.00, [12]=0.00},
-        production =   {[1]=0.00, [2]=0.00, [3]=0.00, [4]=0.05, [5]=0.05, [6]=0.05, [7]=0.00, [8]=0.00, [9]=0.00, [10]=0.05, [11]=0.05, [12]=0.00},
-        preserved =    {[1]=-0.08, [2]=-0.08, [3]=-0.04, [4]=0.00, [5]=0.08, [6]=0.15, [7]=0.22, [8]=0.18, [9]=0.08, [10]=0.00, [11]=-0.04, [12]=-0.08},
-        packaged =     {[1]=0.00, [2]=0.00, [3]=0.00, [4]=0.05, [5]=0.05, [6]=0.05, [7]=0.00, [8]=0.00, [9]=0.00, [10]=0.05, [11]=0.05, [12]=0.00},
-        construction = {[1]=-0.04, [2]=-0.04, [3]=0.04, [4]=0.12, [5]=0.15, [6]=0.12, [7]=0.08, [8]=0.08, [9]=0.04, [10]=0.00, [11]=-0.04, [12]=-0.04},
-        woodProduct =  {[1]=-0.04, [2]=-0.04, [3]=0.04, [4]=0.12, [5]=0.15, [6]=0.12, [7]=0.08, [8]=0.04, [9]=0.00, [10]=0.00, [11]=-0.04, [12]=-0.04}
+        cropFarming = {[1]=-0.18, [2]=-0.14, [3]=-0.05, [4]=0.07, [5]=0.20, [6]=0.34, [7]=0.39, [8]=0.31, [9]=0.19, [10]=0.04, [11]=-0.07, [12]=-0.15},
+        forage = {[1]=-0.22, [2]=-0.12, [3]=0.10, [4]=0.32, [5]=0.42, [6]=0.38, [7]=0.28, [8]=0.08, [9]=-0.04, [10]=-0.15, [11]=-0.28, [12]=-0.32},
+        animalProduct = {[1]=0.00, [2]=0.00, [3]=0.00, [4]=0.05, [5]=0.05, [6]=0.05, [7]=0.00, [8]=0.00, [9]=-0.05, [10]=-0.05, [11]=0.00, [12]=0.00},
+        livestock = {[1]=0.00, [2]=0.00, [3]=0.05, [4]=0.05, [5]=0.05, [6]=0.00, [7]=0.00, [8]=-0.05, [9]=-0.05, [10]=0.00, [11]=0.00, [12]=0.00},
+        processedGoods = {[1]=-0.03, [2]=-0.03, [3]=-0.01, [4]=0.03, [5]=0.06, [6]=0.08, [7]=0.07, [8]=0.06, [9]=0.03, [10]=0.03, [11]=0.02, [12]=-0.03},
+        buildingMaterial = {[1]=-0.04, [2]=-0.04, [3]=0.04, [4]=0.12, [5]=0.15, [6]=0.12, [7]=0.08, [8]=0.06, [9]=0.02, [10]=0.00, [11]=-0.04, [12]=-0.04}
     }
     local profile = profiles[groupName]
     if profile == nil then
@@ -927,6 +913,33 @@ function DynamicMarket:buildYearlyAverageCurve(fillType)
     return curve
 end
 
+function DynamicMarket:isMissingTranslation(text, key)
+    if text == nil or text == "" then
+        return true
+    end
+    if key ~= nil and text == key then
+        return true
+    end
+    return string.find(tostring(text), "missing", 1, true) ~= nil
+end
+
+function DynamicMarket:buildRestoredBaseGameCurve(fillType)
+    self:cacheBaseGameEconomy(fillType)
+
+    local curve = {}
+    for _, period in ipairs(self.PERIODS) do
+        local factor = nil
+        if type(fillType.dynamicMarketBaseGameFactors) == "table" then
+            factor = tonumber(fillType.dynamicMarketBaseGameFactors[period])
+        end
+        if factor == nil and type(fillType.dynamicMarketBaseGameEconomicCurve) == "table" then
+            factor = tonumber(fillType.dynamicMarketBaseGameEconomicCurve[period])
+        end
+        curve[period] = factor or 1
+    end
+    return curve
+end
+
 function DynamicMarket:buildMarketFactors(stats)
     local key, period, year, mapName = self:getMarketKey()
     if self.__marketKey == key and self.__marketFactors ~= nil then
@@ -1178,10 +1191,11 @@ function DynamicMarket:applyMonthlyMarketToSellingStations(passName)
         self.__uiPriceRefreshToken = (tonumber(self.__uiPriceRefreshToken) or 0) + 1
     end
 
+    self.__lastSalesMarketKey = marketKey
+    self.__lastObservedMarketKey = marketKey
+
     if self.DIAGNOSTICS.saleMarket then
         table.sort(changedNames)
-        self.__lastSalesMarketKey = marketKey
-        self.__lastObservedMarketKey = marketKey
         if self.DIAGNOSTICS.saleMarketNames then
             Logging.info("%s saleMarketApplied version=%s pass=%s mode=stationPriceTables enabled=%s period=%d year=%d stations=%d adjusted=%d uniqueFillTypes=%d skipped=%d factorRange=%s names=%s",
                 self.LOG_PREFIX,
@@ -1269,6 +1283,17 @@ function DynamicMarket:getGameLanguage()
 end
 
 function DynamicMarket:getLocalizedText(key, fallback)
+    if key == nil then
+        return tostring(fallback or "")
+    end
+
+    if g_i18n ~= nil and g_i18n.getText ~= nil then
+        local text = g_i18n:getText(key)
+        if not self:isMissingTranslation(text, key) then
+            return text
+        end
+    end
+
     local lang = self:getGameLanguage()
     local texts = self.NOTICE_TEXTS or {}
     if texts[lang] ~= nil and texts[lang][key] ~= nil then
@@ -1442,10 +1467,10 @@ function DynamicMarket:applyToFillType(fillType, passName, stats)
     end
 
     local newCurve = nil
-    if self.ENABLE_YEARLY_AVERAGE == true and self.YEARLY_AVERAGE_FLAT_BASEGAME_GRAPH == true then
+    if self.ENABLE_YEARLY_AVERAGE == true and self.USE_YEARLY_AVERAGE_AS_BASE_PRICE == true and self.YEARLY_AVERAGE_FLAT_BASEGAME_GRAPH == true then
         newCurve = self:buildYearlyAverageCurve(fillType)
     else
-        newCurve = self:buildDynamicCurve(fillType, groupName)
+        newCurve = self:buildRestoredBaseGameCurve(fillType)
     end
 
     if newCurve == nil then
